@@ -6,7 +6,6 @@ session_start();
 define('ROOT_PATH', dirname(__DIR__));
 define('APP_PATH', ROOT_PATH . '/app');
 
-
 spl_autoload_register(function ($className) {
     $paths = [
             APP_PATH . '/Core/' . $className . '.php',
@@ -33,3 +32,7 @@ require_once ROOT_PATH . '/routes/web.php';
 
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+if(empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+}
