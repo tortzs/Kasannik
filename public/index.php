@@ -12,6 +12,8 @@ $publicRoutes = [
     '/',
     '/login',
     '/register',
+    '/auth/login',
+    '/auth/register',
 ];
 
 $isLoggedIn = isset($_SESSION['userID']);

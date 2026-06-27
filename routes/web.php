@@ -13,13 +13,6 @@ $router->get('/schedule', 'ScheduleController@schedule');
 $router->get('/schedule/edit', 'ScheduleController@scheduleEdit');
 
 /*
- * User
- */
-$router->get('/register', 'AuthController@userRegister');
-$router->get('/login', 'AuthController@userLogin');
-$router->get('/user', 'AuthController@user');
-
-/*
  * Instructor
  */
 // get
@@ -47,6 +40,9 @@ $router->post('/semester/update', 'SemesterController@semesterUpdate');
  * User
  */
 // get
+$router->get('/register', 'AuthController@userRegister');
+$router->get('/login', 'AuthController@userLogin');
+$router->get('/user', 'AuthController@user');
 $router->get('/user/logout', 'AuthController@logout');
 // post
 $router->post('/auth/register', 'AuthController@register');
