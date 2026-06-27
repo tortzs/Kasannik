@@ -32,6 +32,7 @@ class InstructorController extends Controller
             'instructor' => $instructors->getById($instructorId),
         ];
 
+
         $this->view("instructor/edit", $data);
     }
 

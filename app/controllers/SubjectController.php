@@ -64,6 +64,35 @@ class SubjectController extends Controller
         ]);
     }
 
+    public function subjectDelete(): bool
+    {
+        if (!Auth::check()) {
+            header('Location: /login');
+            exit;
+        }
+        $subjectId = filter_input(INPUT_POST, 'subjectId', FILTER_VALIDATE_INT);
+        $semesterId = filter_input(INPUT_POST, 'semesterId', FILTER_VALIDATE_INT);
+
+        if (
+            !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+            !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+        ) {
+            header('Location: /semester/view/'.$semesterId);
+            exit;
+        }
+
+
+        if (!$semesterId) {
+            header('Location: /semester');
+            exit;
+        }
+
+        $subjects = new Subjects();
+        $subjects->subjectDelete($subjectId, $semesterId);
+
+        header('Location: /semester/view/'.$semesterId);
+        exit;
+    }
     public function subjectView(int $subjectId)
     {
         if (!Auth::check()) {
@@ -78,10 +107,9 @@ class SubjectController extends Controller
         $subjectModel = new Subjects();
         $subject = $subjectModel->getSubjectById($subjectId);
         $data = [
-          'subject' => $subject,
+            'subject' => $subject,
         ];
         $this->view("subject/index", $data);
 
     }
-
 }

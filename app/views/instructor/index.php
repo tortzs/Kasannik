@@ -1,8 +1,6 @@
 <?php
 /** @var Int $userId */
 /** @var array $instructors */
-
-
 ?>
 Prowadzący
 <?php if (!empty($instructors)) { ?>
