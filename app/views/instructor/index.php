@@ -47,7 +47,7 @@ Prowadzący
                     <?php echo $instructor['Room']; ?>
                 </td>
                 <td>
-                    <a href="instructor/edit?instructorId=<?php echo $instructor['ID']?>">
+                    <a href="instructor/edit/<?php echo $instructor['ID']?>">
                         Edytuj
                     </a>
                     <form method="post" action="/instructor/delete" onsubmit="return confirm('Na pewno usunąć prowadzącego?');">

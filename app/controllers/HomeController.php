@@ -8,21 +8,5 @@ class HomeController extends Controller
         $this->view("home/index");
     }
 
-    /*
-     *  Schedule
-     */
-    public function schedule()
-    {
-        $this->view("schedule/index");
-    }
-
-    public function scheduleEdit()
-    {
-        $this->view("schedule/edit");
-    }
-    /*
-     *  User
-     */
-
 
 }

@@ -11,11 +11,10 @@ class InstructorController extends Controller
         $this->view("instructor/index", $data);
     }
 
-    public function instructorEdit()
+    public function instructorEdit(int $instructorId)
     {
         $instructors = new Instructors();
 
-        $instructorId = filter_input(INPUT_GET, 'instructorId', FILTER_VALIDATE_INT);
 
         if (!$instructorId) {
             header('Location: /instructor');

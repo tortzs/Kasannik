@@ -5,3 +5,5 @@ if(isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']){
     echo 'wylogowano';
 }
 ?>
+
+Aktualny semestr: Wakacje :D

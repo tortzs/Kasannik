@@ -12,4 +12,5 @@ class Model
         $this->userId = Auth::id();
 
     }
+
 }

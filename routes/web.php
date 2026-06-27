@@ -24,12 +24,24 @@ $router->get('/user', 'AuthController@user');
  */
 // get
 $router->get('/instructor', 'InstructorController@instructor');
-$router->get('/instructor/edit', 'InstructorController@instructorEdit');
+$router->get('/instructor/edit/{semester}', 'InstructorController@instructorEdit');
 $router->get('/instructor/add', 'InstructorController@instructorAdd');
 // post
 $router->post('/instructor/delete', 'InstructorController@instructorDelete');
 $router->post('/instructor/insert', 'InstructorController@instructorInsert');
 $router->post('/instructor/update', 'InstructorController@instructorUpdate');
+/*
+ * Semester
+ */
+// get
+$router->get('/semester', 'SemesterController@semester');
+$router->get('/semester/edit/{semester}', 'SemesterController@semesterEdit');
+$router->get('/semester/add', 'SemesterController@semesterAdd');
+$router->get('/semester/view/{semester}', 'SemesterController@semesterView');;
+// post
+$router->post('/semester/delete', 'SemesterController@semesterDelete');
+$router->post('/semester/insert', 'SemesterController@semesterInsert');
+$router->post('/semester/update', 'SemesterController@semesterUpdate');
 
 /*
  * User
