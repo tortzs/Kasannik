@@ -106,8 +106,17 @@ class SubjectController extends Controller
         }
         $subjectModel = new Subjects();
         $subject = $subjectModel->getSubjectById($subjectId);
+
+        $assignmentsModel = new Assignments();
+        $assignments = $assignmentsModel->getAssignmentsBySubject($subjectId);
+
+        $assignmentTypesModel = new AssignmentTypes();
+        $types = $assignmentTypesModel->getAllTypes();
+
         $data = [
             'subject' => $subject,
+            'assignments'     => $assignments,
+            'assignmentTypes' => $types,
         ];
         $this->view("subject/view", $data);
 
