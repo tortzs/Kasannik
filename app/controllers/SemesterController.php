@@ -12,19 +12,26 @@ class SemesterController extends Controller
     }
     public function semesterView(string $semesterId)
     {
+        $instructors = new Instructors();
+        $instructorsList = $instructors->getAll();
         $semesters = new semesters();
         if($semesterId != 'current') {
             $currentSemester = $semesters->getById($semesterId);
         }else{
             $currentSemester = $semesters->getCurrent();
+            $semesterId = $currentSemester['ID'];
         }
         if($currentSemester == null) {
             header('Location: /semester');
             exit;
         }
+        $subjects = new subjects();
+        $subjectsList = $subjects->getSubjectsBySemester(intval($semesterId));
         $data = [
             'semester' => $currentSemester,
             'semesterId' => $semesterId,
+            'subjects' => $subjectsList,
+            'instructors' => $instructorsList,
         ];
         $this->view("semester/view", $data);
     }

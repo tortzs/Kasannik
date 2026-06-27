@@ -24,7 +24,7 @@ $router->get('/user', 'AuthController@user');
  */
 // get
 $router->get('/instructor', 'InstructorController@instructor');
-$router->get('/instructor/edit/{semester}', 'InstructorController@instructorEdit');
+$router->get('/instructor/edit/{instructor}', 'InstructorController@instructorEdit');
 $router->get('/instructor/add', 'InstructorController@instructorAdd');
 // post
 $router->post('/instructor/delete', 'InstructorController@instructorDelete');
@@ -51,3 +51,12 @@ $router->get('/user/logout', 'AuthController@logout');
 // post
 $router->post('/auth/register', 'AuthController@register');
 $router->post('/auth/login', 'AuthController@login');
+
+/*
+ * Subject
+ */
+// get
+$router->get('/subject/{subject}', 'SubjectController@subjectView');
+// post
+$router->post('/subject/insert', 'SubjectController@subjectInsert');
+$router->post('/subject/delete', 'SubjectController@subjectDelete');
