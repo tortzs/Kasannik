@@ -20,4 +20,31 @@ class Assignments extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function insertAssignment($subjectId, $typeId, $title, $maxPoints, $deadline)
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO Assignments (SubjectID, TypeID, Title, MaxPoints, Deadline, IsCompleted)
+            VALUES (:subjectId, :typeId, :title, :maxPoints, :deadline, 0)
+        ");
+
+        $stmt->execute([
+            'subjectId' => $subjectId,
+            'typeId'    => $typeId,
+            'title'     => $title,
+            'maxPoints' => $maxPoints,
+            'deadline'  => $deadline
+        ]);
+
+        return $this->pdo->lastInsertId();
+    }
+    public function deleteAssignment($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE a
+            FROM Assignments a
+            JOIN Subjects sub ON a.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            WHERE a.ID = :id AND sem.UserID = :userId;");
+        return $stmt->execute(['id' => $id, 'userId' => $this->userId]);
+    }
 }
