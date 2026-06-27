@@ -109,7 +109,7 @@ class SubjectController extends Controller
         $data = [
             'subject' => $subject,
         ];
-        $this->view("subject/index", $data);
+        $this->view("subject/view", $data);
 
     }
 }

@@ -3,7 +3,7 @@ class Subjects extends Semesters{
 
     public function getSubjectById(int $id){
         $stmt = $this->pdo->prepare("Select Subjects.* FROM Subjects 
-        LEFT OUTER JOIN kasannik_db.Semesters S on S.ID = Subjects.SemesterID
+        LEFT OUTER JOIN Semesters S on S.ID = Subjects.SemesterID
          WHERE Subjects.ID = :id
          AND S.UserID = :userId LIMIT 1");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);

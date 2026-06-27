@@ -52,7 +52,7 @@ $router->post('/auth/login', 'AuthController@login');
  * Subject
  */
 // get
-$router->get('/subject/{subject}', 'SubjectController@subjectView');
+$router->get('/subject/view/{subject}', 'SubjectController@subjectView');
 // post
 $router->post('/subject/insert', 'SubjectController@subjectInsert');
 $router->post('/subject/delete', 'SubjectController@subjectDelete');

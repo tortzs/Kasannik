@@ -44,10 +44,10 @@ var_dump($semester);
                 <?php echo $subject['LecturerFirstName'] . ' ' . $subject['LecturerLastName']; ?>
             </td>
             <td>
-                <a href="/subject/<?php echo urlencode($subject['SubjectID']) ?>">
-                    Zobacz
+                <a href="/subject/view/<?php echo urlencode($subject['SubjectID']) ?>">
+                    <button type="button">Przejdź</button>
                 </a>
-                <form method="post" action="/subject/delete" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
+                <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                     <input type="hidden" name="subjectId" value="<?= (int)$subject['SubjectID'] ?>">
                     <input type="hidden" name="semesterId" value="<?= (int)$subject['SemesterID'] ?>">
