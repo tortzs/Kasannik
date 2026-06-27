@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends Controller
+class ScheduleController extends Controller
 {
 
     public function index()
@@ -8,9 +8,6 @@ class HomeController extends Controller
         $this->view("home/index");
     }
 
-    /*
-     *  Schedule
-     */
     public function schedule()
     {
         $this->view("schedule/index");
@@ -20,9 +17,5 @@ class HomeController extends Controller
     {
         $this->view("schedule/edit");
     }
-    /*
-     *  User
-     */
-
 
 }

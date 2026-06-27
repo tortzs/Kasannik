@@ -1,0 +1,35 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Keep example env file
+!.env.example
+
+# Composer
+/vendor/
+
+# Logs
+/logs/
+*.log
+
+# Cache / temp
+/cache/
+/tmp/
+/temp/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+*.pid
+*.seed
+*.phar
+
+# Uploads/private files
+/uploads/

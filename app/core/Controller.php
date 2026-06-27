@@ -2,18 +2,32 @@
 
 class Controller
 {
-    protected function view(string $view, array $data = []): void
+
+    protected function view(string $view, array $data = [], string $layout = 'main'): void
     {
+
+
+
         extract($data);
 
         $viewPath = APP_PATH . '/Views/' . $view . '.php';
+        $layoutPath = APP_PATH . '/Views/layouts/' . $layout . '.php';
 
         if (!file_exists($viewPath)) {
-            echo "Widok $view nie istnieje";
+            echo "Widok {$view} nie istnieje";
             return;
         }
 
-        require_once $viewPath;
+        if (!file_exists($layoutPath)) {
+            echo "Layout {$layout} nie istnieje";
+            return;
+        }
+
+        ob_start();
+        require $viewPath;
+        $content = ob_get_clean();
+
+        require $layoutPath;
     }
 
     protected function model(string $model): object

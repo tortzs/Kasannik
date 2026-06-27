@@ -1,6 +1,33 @@
 <?php
 
 session_start();
+$currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$currentPath = rtrim($currentPath, '/');
+
+if ($currentPath === '') {
+    $currentPath = '/';
+}
+
+$publicRoutes = [
+    '/',
+    '/login',
+    '/register',
+];
+
+$isLoggedIn = isset($_SESSION['userID']);
+$isPublicRoute = in_array($currentPath, $publicRoutes, true);
+
+if (!$isLoggedIn && !$isPublicRoute) {
+    header('Location: /login');
+    exit;
+}
+
+if ($isLoggedIn && $currentPath === '/login') {
+    header('Location: /');
+    exit;
+}
+
+$userId = $isLoggedIn ? (int) $_SESSION['userID'] : null;
 
 
 define('ROOT_PATH', dirname(__DIR__));

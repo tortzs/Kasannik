@@ -117,4 +117,17 @@ class AuthController extends Controller
         header('Location: /');
         exit;
     }
+
+
+    public function user()
+    {
+        $this->view("user/index");
+    } public function userRegister()
+{
+    $this->view("user/register");
+}
+    public function userLogin()
+    {
+        $this->view("user/login");
+    }
 }
