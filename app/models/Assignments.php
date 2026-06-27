@@ -47,4 +47,20 @@ class Assignments extends Model
             WHERE a.ID = :id AND sem.UserID = :userId;");
         return $stmt->execute(['id' => $id, 'userId' => $this->userId]);
     }
+    public function updateProgress($id, $earnedPoints, $isCompleted)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE Assignments a
+            JOIN Subjects sub ON a.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            SET a.EarnedPoints = :earnedPoints, a.IsCompleted = :isCompleted 
+            WHERE a.ID = :id AND sem.UserID = :userId");
+
+        return $stmt->execute([
+            'earnedPoints' => $earnedPoints,
+            'isCompleted'  => $isCompleted,
+            'id'           => $id,
+            'userId'       => $this->userId
+        ]);
+    }
 }

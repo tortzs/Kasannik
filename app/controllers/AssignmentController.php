@@ -67,4 +67,34 @@ class AssignmentController
         }
         exit;
     }
+    public function assignmentUpdate()
+    {
+        if (!Auth::check() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /login');
+            exit;
+        }
+
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Błąd bezpieczeństwa (CSRF).');
+        }
+
+        $assignmentId = (int)($_POST['assignmentId'] ?? 0);
+        $subjectId = (int)($_POST['subjectId'] ?? 0);
+
+        $earnedPoints = $_POST['earned_points'] !== '' ? (float)$_POST['earned_points'] : null;
+
+        $isCompleted = isset($_POST['is_completed']) ? 1 : 0;
+
+        if ($assignmentId > 0) {
+            $assignmentModel = new Assignments();
+            $assignmentModel->updateProgress($assignmentId, $earnedPoints, $isCompleted);
+        }
+
+        if ($subjectId > 0) {
+            header('Location: /subject/view/' . $subjectId);
+        } else {
+            header('Location: /semester/');
+        }
+        exit;
+    }
 }

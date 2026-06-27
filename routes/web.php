@@ -64,3 +64,4 @@ $router->post('/subject/delete', 'SubjectController@subjectDelete');
 //post
 $router->post('/assignment/insert', 'AssignmentController@assignmentInsert');
 $router->post('/assignment/delete', 'AssignmentController@assignmentDelete');
+$router->post('/assignment/update', 'AssignmentController@assignmentUpdate');
