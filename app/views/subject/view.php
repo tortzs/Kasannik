@@ -32,7 +32,15 @@
         foreach ($assignments as $assignment) {
             ?>
             <tr>
-                <td><?php echo htmlspecialchars($assignment['Title']); ?></td>
+                <td>
+                    <span class="open-details-modal" style="cursor: pointer; color: #007bff; text-decoration: underline; font-weight: bold;"
+                          data-id="<?php echo (int)$assignment['ID']; ?>"
+                          data-title="<?php echo htmlspecialchars($assignment['Title']); ?>"
+                          data-team="<?php echo htmlspecialchars($assignment['Team'] ?? ''); ?>"
+                          data-description="<?php echo htmlspecialchars($assignment['Description'] ?? ''); ?>">
+                        <?php echo htmlspecialchars($assignment['Title']); ?>
+                    </span>
+                </td>
                 <td><?php echo htmlspecialchars($assignment['TypeName']); ?></td>
                 <td><?php echo htmlspecialchars($assignment['MaxPoints']); ?></td>
                 <td><?php echo $assignment['EarnedPoints'] !== null ? htmlspecialchars($assignment['EarnedPoints']) : '-'; ?></td>
@@ -133,6 +141,33 @@
     </div>
 </div>
 
+<div id="detailsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1001;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:8px; width:450px; max-width:90%; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <h3 id="details_modal_title" style="margin-top:0;">Szczegóły zadania</h3>
+
+        <form method="post" action="/assignment/update-details">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+            <input type="hidden" name="assignmentId" id="details_modal_assignment_id" value="">
+            <input type="hidden" name="subjectId" value="<?= (int)$subject['ID'] ?>">
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">Zespół / Osoby realizujące:</label>
+                <input type="text" name="team" id="details_modal_team" placeholder="" style="width:100%; padding:6px; box-sizing: border-box;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">Opis, cele i zagadnienia:</label>
+                <textarea name="description" id="details_modal_description" placeholder="Wpisz wymagania, agendę, linki lub zagadnienia na kolokwium..." style="width:100%; padding:6px; min-height:120px; box-sizing: border-box; resize: vertical;"></textarea>
+            </div>
+
+            <div style="text-align:right;">
+                <button type="button" id="closeDetailsModalBtn" style="margin-right:10px;">Anuluj</button>
+                <button type="submit">Zapisz szczegóły</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('updateModal');
@@ -157,8 +192,33 @@
                 modal.style.display = 'none';
             }
         });
+        const detailsModal = document.getElementById('detailsModal');
+        const closeDetailsBtn = document.getElementById('closeDetailsModalBtn');
+
+        document.querySelector('#assignments-table').addEventListener('click', function (e) {
+            const target = e.target.closest('.open-details-modal');
+            if (!target) return;
+
+            document.getElementById('details_modal_assignment_id').value = target.dataset.id;
+            document.getElementById('details_modal_title').textContent = "Szczegóły: " + target.dataset.title;
+            document.getElementById('details_modal_team').value = target.dataset.team;
+            document.getElementById('details_modal_description').value = target.dataset.description;
+
+            detailsModal.style.display = 'block';
+        });
+
+        closeDetailsBtn.addEventListener('click', function() {
+            detailsModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === detailsModal) {
+                detailsModal.style.display = 'none';
+            }
+        });
     });
 </script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -232,7 +292,15 @@
                     const row = document.createElement('tr');
 
                     row.innerHTML = `
-                            <td></td>
+                            <td>
+                                <span class="open-details-modal" style="cursor: pointer; color: #007bff; text-decoration: underline; font-weight: bold;"
+                                      data-id="${data.assignmentId}"
+                                      data-title="${title}"
+                                      data-team="${document.querySelector('[name=\"assignment_is_completed\"]').checked ? '' : ''}"
+                                      data-description="">
+                                    ${title}
+                                </span>
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>

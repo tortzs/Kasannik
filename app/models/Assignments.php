@@ -65,4 +65,21 @@ class Assignments extends Model
             'userId'       => $this->userId
         ]);
     }
+    public function updateAssignmentDetails($id, $teammembers, $notes)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE Assignments a
+            JOIN Subjects sub ON a.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            SET a.TeamMembers = :teammembers, a.Notes = :notes
+            WHERE a.ID = :id AND sem.UserID = :userId
+        ");
+
+        return $stmt->execute([
+            'teammembers' => $teammembers,
+            'notes'       => $notes,
+            'id'          => $id,
+            'userId'      => $this->userId
+        ]);
+    }
 }
