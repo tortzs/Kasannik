@@ -37,7 +37,6 @@ var_dump($semester);
     <tbody>
     <?php
     foreach ($subjects as $subject) {
-        var_dump($subjects) //do usuniecia
         ?>
         <tr>
             <td>
@@ -60,6 +59,12 @@ var_dump($semester);
                 <a href="/subject/view/<?php echo urlencode($subject['SubjectID']) ?>">
                     <button type="button">Przejdź</button>
                 </a>
+                <button type="button" class="open-update-modal" style="display:inline-block;"
+                        data-id="<?php echo (int)$subject['ID']; ?>"
+                        data-maxpoints="<?php echo htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? ''); ?>"
+                        data-description="<?php echo htmlspecialchars($subject['SubjectDescription'] ?? ''); ?>">
+                    Aktualizuj
+                </button>
                 <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                     <input type="hidden" name="subjectId" value="<?= (int)$subject['SubjectID'] ?>">
@@ -133,6 +138,62 @@ var_dump($semester);
     </tfoot>
 
 </table>
+
+<div id="updateSubjectModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:8px; min-width:300px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <h3 style="margin-top:0;">Aktualizuj przedmiot</h3>
+
+        <form method="post" action="/subject/update">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+
+            <input type="hidden" name="subjectId" id="modal_subject_id" value="">
+
+            <input type="hidden" name="semesterId" value="<?= (int)$semester['ID'] ?>">
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Całkowita liczba punktów:</label>
+                <input type="number" step="0.5" name="max_points" id="modal_max_points" value="" style="width:100%; padding:5px;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:5px;">Opis / Notatki:</label>
+                <textarea name="description" id="modal_description" style="width:100%; padding:5px; min-height:80px;"></textarea>
+            </div>
+
+            <div style="text-align:right;">
+                <button type="button" id="closeSubjectModalBtn" style="margin-right:10px;">Anuluj</button>
+                <button type="submit">Zapisz zmiany</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('updateSubjectModal');
+        const closeBtn = document.getElementById('closeSubjectModalBtn');
+
+        document.querySelectorAll('.open-update-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('modal_subject_id').value = this.dataset.id;
+                document.getElementById('modal_max_points').value = this.dataset.maxpoints;
+                document.getElementById('modal_description').value = this.dataset.description;
+
+                modal.style.display = 'block';
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
