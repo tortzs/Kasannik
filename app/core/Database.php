@@ -39,7 +39,6 @@ class Database
         $dbname = envValue('DB_NAME');
         $username = envValue('DB_USER');
         $password = envValue('DB_PASS');
-
         $this->pdo = new PDO(
             "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
             $username,

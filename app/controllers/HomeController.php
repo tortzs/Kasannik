@@ -8,5 +8,8 @@ class HomeController extends Controller
         $this->view("home/index");
     }
 
-
+    public function dashboard()
+    {
+        $this->view("home/dashboard");
+    }
 }

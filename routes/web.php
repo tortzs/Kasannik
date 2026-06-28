@@ -6,6 +6,7 @@
  * Home
  */
 $router->get('/', 'HomeController@index');
+$router->get('/dashboard', 'HomeController@dashboard');
 /*
  * Schedule
  */

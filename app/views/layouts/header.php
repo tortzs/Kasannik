@@ -1,43 +1,32 @@
-<header>
-    <nav id="main-menu">
-        <ul style="display: flex; gap: 20px">
-            <li>
-                <a href="/user">
-                    Moje Konto
-                </a>
-                <ul>
-                    <li>
-                        <a href="/register">
-                            Zarejestruj
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/login">
-                            Zaloguj
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/user/logout">
-                            Wyloguj
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li><a href="/instructor">
-                    Prowadzący
-                </a></li>
+<aside class="sidebar">
+        <a href="/dashboard" class="sidebar-logo">
+            <span class="logo-badge">01</span>
+            <div class="logo-text">kasannik<span>カサニック</span></div>
+        </a>
 
-            <li><a href="/semester/view/current">
-                    Semestr
-                </a>
-                <ul>
-                    <li><a href="/semester">
-                            Wszystkie semestry
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
-<hr>
+        <div class="sidebar-profile-container">
+            <a href="/user" class="profile-card">
+                <img src="placeholder_avatar.jpg" alt="Avatar" class="avatar">
+                <div class="profile-name">Miku</div>
+                <div class="profile-role">Student</div>
+                <span class="semester-badge">SEMESTR 4</span>
+            </a>
+            <a href="/user/logout" class="logout-btn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Wyloguj się
+            </a>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/instructor"><i class="fa-regular fa-user"></i> Prowadzący</a>
+            <a href="/semester"><i class="fa-regular fa-calendar"></i> Semestr</a>
+            <a href="#"><i class="fa-solid fa-clipboard-list"></i> Terminy</a>
+            <a href="/schedule"><i class="fa-regular fa-calendar-days"></i> Plan Zajęć</a>
+            <a href="/subject"><i class="fa-solid fa-book"></i> Przedmioty</a>
+            <a href="#"><i class="fa-regular fa-square-check"></i> Do zrobienia</a>
+        </nav>
+
+        <div class="sidebar-footer-deco">
+            <div class="deco-number">01</div>
+            <div class="deco-text">HATSUNE<br>MIKU</div>
+        </div>
+    </aside>

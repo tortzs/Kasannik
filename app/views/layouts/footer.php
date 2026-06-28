@@ -1,4 +1,5 @@
-<footer>
+<!--<footer>
     <hr>
     Kasannik - eo
 </footer>
+->>
