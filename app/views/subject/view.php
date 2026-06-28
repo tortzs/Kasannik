@@ -369,8 +369,8 @@
                                 <span class="open-details-modal" style="cursor: pointer; color: #007bff; text-decoration: underline; font-weight: bold;"
                                       data-id="${data.assignmentId}"
                                       data-title="${title}"
-                                      data-team="${document.querySelector('[name=\"assignment_is_completed\"]').checked ? '' : ''}"
-                                      data-description="">
+                                      data-teammembers=""
+                                      data-notes="">
                                     ${title}
                                 </span>
                             </td>
@@ -395,7 +395,7 @@
                             </td>
                     `;
 
-                    row.children[0].textContent = title;
+                    //row.children[0].textContent = title;
                     row.children[1].textContent = typeName;
                     row.children[2].textContent = points;
                     row.children[3].textContent = earnedPointsDisplay;
