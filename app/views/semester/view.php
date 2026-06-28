@@ -24,6 +24,15 @@ var_dump($semester);
             Instruktor
         </th>
         <th>
+            Linki
+        </th>
+        <th>
+            Punkty
+        </th>
+        <th>
+            Opis
+        </th>
+        <th>
             Akcje
         </th>
     </tr>
@@ -31,6 +40,20 @@ var_dump($semester);
     <tbody>
     <?php
     foreach ($subjects as $subject) {
+        ?>
+        <?php
+        $linksArray = [];
+        if (!empty($subject['LinksData'])) {
+            $pairs = explode('||', $subject['LinksData']);
+            foreach ($pairs as $pair) {
+                $parts = explode('::', $pair);
+                if (count($parts) === 2) {
+                    $linksArray[$parts[0]] = $parts[1];
+                }
+            }
+        }
+        $usosUrl = $linksArray['USOS'] ?? '';
+        $moodleUrl = $linksArray['KURS'] ?? '';
         ?>
         <tr>
             <td>
@@ -44,9 +67,36 @@ var_dump($semester);
                 <?php echo $subject['LecturerFirstName'] . ' ' . $subject['LecturerLastName']; ?>
             </td>
             <td>
+                <?php if (!empty($usosUrl)): ?>
+                    <a href="<?php echo htmlspecialchars($usosUrl); ?>" target="_blank">
+                        <button type="button" style="padding: 2px 6px; font-size: 0.85em; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 3px;">USOS</button>
+                    </a>
+                <?php endif; ?>
+
+                <?php if (!empty($moodleUrl)): ?>
+                    <a href="<?php echo htmlspecialchars($moodleUrl); ?>" target="_blank">
+                        <button type="button" style="padding: 2px 6px; font-size: 0.85em; background-color: #f98012; color: white; border: none; border-radius: 4px; cursor: pointer;">KURS</button>
+                    </a>
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php echo $subject['SubjectPoints'] . ' / ' . $subject['SubjectMaxPossiblePoints']; ?>
+            </td>
+            <td>
+                <?php echo $subject['SubjectDescription']; ?>
+            </td>
+            <td>
                 <a href="/subject/view/<?php echo urlencode($subject['SubjectID']) ?>">
                     <button type="button">Przejdź</button>
                 </a>
+                <button type="button" class="open-update-modal" style="display:inline-block;"
+                        data-id="<?php echo (int)$subject['SubjectID']; ?>"
+                        data-maxpoints="<?php echo htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? ''); ?>"
+                        data-description="<?php echo htmlspecialchars($subject['SubjectDescription'] ?? ''); ?>"
+                        data-usoslink="<?php echo htmlspecialchars($usosUrl); ?>"
+                        data-moodlelink="<?php echo htmlspecialchars($moodleUrl); ?>">
+                    Aktualizuj
+                </button>
                 <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                     <input type="hidden" name="subjectId" value="<?= (int)$subject['SubjectID'] ?>">
@@ -121,6 +171,74 @@ var_dump($semester);
 
 </table>
 
+<div id="updateSubjectModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:8px; min-width:300px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <h3 style="margin-top:0;">Aktualizuj przedmiot</h3>
+
+        <form method="post" action="/subject/update">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+
+            <input type="hidden" name="subjectId" id="modal_subject_id" value="">
+
+            <input type="hidden" name="semesterId" value="<?= (int)$semester['ID'] ?>">
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Całkowita liczba punktów:</label>
+                <input type="number" step="0.5" name="max_points" id="modal_max_points" value="" style="width:100%; padding:5px;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:5px;">Opis / Notatki:</label>
+                <textarea name="description" id="modal_description" style="width:100%; padding:5px; min-height:80px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Link USOSweb:</label>
+                <input type="url" name="usos_link" id="modal_usos_link" placeholder="https://usosweb.polsl.pl/..." style="width:100%; padding:5px; box-sizing: border-box;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Link KURS (Moodle):</label>
+                <input type="url" name="moodle_link" id="modal_moodle_link" placeholder="https://platforma.polsl.pl/..." style="width:100%; padding:5px; box-sizing: border-box;">
+            </div>
+
+            <div style="text-align:right;">
+                <button type="button" id="closeSubjectModalBtn" style="margin-right:10px;">Anuluj</button>
+                <button type="submit">Zapisz zmiany</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modal = document.getElementById('updateSubjectModal');
+        const closeBtn = document.getElementById('closeSubjectModalBtn');
+
+        document.querySelectorAll('.open-update-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('modal_subject_id').value = this.dataset.id;
+                document.getElementById('modal_max_points').value = this.dataset.maxpoints;
+                document.getElementById('modal_description').value = this.dataset.description;
+                document.getElementById('modal_usos_link').value = this.dataset.usoslink || '';
+                document.getElementById('modal_moodle_link').value = this.dataset.moodlelink || '';
+
+                modal.style.display = 'block';
+            });
+        });
+
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const subjectForm = document.querySelector('#add-subject-form');
@@ -185,19 +303,27 @@ var_dump($semester);
                     const tableBody = subjectTable.querySelector('tbody');
 
                     const row = document.createElement('tr');
-                    console.log(data);
+
                     row.innerHTML = `
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>
-                                  <form method="post" action="/subject/delete" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
+                            <td></td>
+                            <td>0.00 / 100</td> <td></td> <td>
+                                <a href="/subject/view/${data.subjectId}">
+                                    <button type="button">Przejdź</button>
+                                </a>
+                                <button type="button" class="open-update-modal" style="display:inline-block;"
+                                        data-id="${data.subjectId}"
+                                        data-maxpoints="100"
+                                        data-description="">
+                                    Aktualizuj
+                                </button>
+                                <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                     <input type="hidden" name="subjectId" value="${data.subjectId}">
                                     <input type="hidden" name="semesterId" value="<?= (int)$semester['ID'] ?>">
-                                    <button type="submit">
-                                        Usuń
-                                    </button>
+                                    <button type="submit">Usuń</button>
                                 </form>
                             </td>
                     `;
@@ -205,6 +331,14 @@ var_dump($semester);
                     row.children[0].textContent = subjectName;
                     row.children[1].textContent = subjectEcts;
                     row.children[2].textContent = subjectInstructor;
+
+                    const newUpdateBtn = row.querySelector('.open-update-modal');
+                    newUpdateBtn.addEventListener('click', function() {
+                        document.getElementById('modal_subject_id').value = this.dataset.id;
+                        document.getElementById('modal_max_points').value = this.dataset.maxpoints;
+                        document.getElementById('modal_description').value = this.dataset.description;
+                        document.getElementById('updateSubjectModal').style.display = 'block';
+                    });
 
                     tableBody.appendChild(row);
                     subjectForm.reset();

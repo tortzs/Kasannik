@@ -121,4 +121,38 @@ class SubjectController extends Controller
         $this->view("subject/view", $data);
 
     }
+    public function subjectUpdate()
+    {
+        if (!Auth::check() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /login');
+            exit;
+        }
+
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die('Błąd bezpieczeństwa (CSRF).');
+        }
+
+        $subjectId = (int)($_POST['subjectId'] ?? 0);
+        $semesterId = (int)($_POST['semesterId'] ?? 0);
+
+        $maxPoints = (isset($_POST['max_points']) && $_POST['max_points'] !== '')
+            ? (float)str_replace(',', '.', $_POST['max_points'])
+            : null;
+        $description = trim($_POST['description'] ?? '');
+        $usosLink = trim($_POST['usos_link'] ?? '');
+        $moodleLink = trim($_POST['moodle_link'] ?? '');
+
+        if ($subjectId > 0) {
+            $subjectModel = new Subjects();
+            $subjectModel->updateSubjectDetails($subjectId, $maxPoints, $description);
+            $subjectModel->saveSubjectLinks($subjectId, $usosLink, $moodleLink);
+        }
+
+        if ($semesterId > 0) {
+            header('Location: /semester/view/' . $semesterId);
+        } else {
+            header('Location: /semester/');
+        }
+        exit;
+    }
 }

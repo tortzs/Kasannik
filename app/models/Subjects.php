@@ -21,6 +21,14 @@ class Subjects extends Semesters{
             Sub.ECTS AS SubjectECTS,
             Sub.SemesterID,
             Sub.InstructorID,
+            Sub.MaxPossiblePoints AS SubjectMaxPossiblePoints,
+            Sub.GeneralNotes AS SubjectDescription,
+            
+            IFNULL(SUM(A.EarnedPoints), 0) AS SubjectPoints,
+            
+            (SELECT GROUP_CONCAT(CONCAT(LinkName, '::', Url) SEPARATOR '||') 
+             FROM SubjectLinks 
+             WHERE SubjectID = Sub.ID) AS LinksData,
 
             L.ID AS LecturerID,
             L.FirstName AS LecturerFirstName,
@@ -30,8 +38,11 @@ class Subjects extends Semesters{
             ON S.ID = Sub.SemesterID
         LEFT JOIN Lecturer L 
             ON L.ID = Sub.InstructorID
+        LEFT JOIN Assignments A 
+            ON Sub.ID = A.SubjectID
         WHERE Sub.SemesterID = :semesterId 
           AND S.UserID = :userId
+        GROUP BY Sub.ID, L.ID
     ");
 
         $stmt->bindValue(':semesterId', $semesterId, PDO::PARAM_INT);
@@ -99,5 +110,46 @@ class Subjects extends Semesters{
         $stmt->bindValue(':semesterId', $semesterId, PDO::PARAM_INT);
         $stmt->bindValue(':ID', $id, PDO::PARAM_INT);
         return $stmt->execute();
+    }
+
+    public function updateSubjectDetails($subjectId, $maxPoints, $description)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE Subjects sub
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            SET sub.MaxPossiblePoints = :maxPoints, sub.GeneralNotes = :description
+            WHERE sub.ID = :subjectId AND sem.UserID = :userId
+        ");
+
+        return $stmt->execute([
+            'maxPoints'   => $maxPoints,
+            'description' => $description,
+            'subjectId'   => $subjectId,
+            'userId'      => $this->userId
+        ]);
+    }
+
+    public function saveSubjectLinks($subjectId, $usosUrl, $moodleUrl)
+    {
+        $stmtDel = $this->pdo->prepare("
+            DELETE sl FROM SubjectLinks sl
+            JOIN Subjects sub ON sl.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            WHERE sl.SubjectID = :subId AND sem.UserID = :userId 
+              AND sl.LinkName IN ('USOS', 'KURS')
+        ");
+        $stmtDel->execute([
+            'subId'  => $subjectId,
+            'userId' => $this->userId
+        ]);
+
+        if (!empty($usosUrl)) {
+            $stmtIn = $this->pdo->prepare("INSERT INTO SubjectLinks (SubjectID, LinkName, Url) VALUES (:subId, 'USOS', :url)");
+            $stmtIn->execute(['subId' => $subjectId, 'url' => $usosUrl]);
+        }
+        if (!empty($moodleUrl)) {
+            $stmtIn = $this->pdo->prepare("INSERT INTO SubjectLinks (SubjectID, LinkName, Url) VALUES (:subId, 'KURS', :url)");
+            $stmtIn->execute(['subId' => $subjectId, 'url' => $moodleUrl]);
+        }
     }
 }

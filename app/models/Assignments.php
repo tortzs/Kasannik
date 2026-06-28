@@ -21,19 +21,21 @@ class Assignments extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertAssignment($subjectId, $typeId, $title, $maxPoints, $deadline)
+    public function insertAssignment($subjectId, $typeId, $title, $maxPoints, $deadline, $earnedPoints = null, $isCompleted = 0)
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO Assignments (SubjectID, TypeID, Title, MaxPoints, Deadline, IsCompleted)
-            VALUES (:subjectId, :typeId, :title, :maxPoints, :deadline, 0)
+            INSERT INTO Assignments (SubjectID, TypeID, Title, MaxPoints, Deadline, EarnedPoints, IsCompleted)
+            VALUES (:subjectId, :typeId, :title, :maxPoints, :deadline, :earnedPoints, :isCompleted)
         ");
 
         $stmt->execute([
-            'subjectId' => $subjectId,
-            'typeId'    => $typeId,
-            'title'     => $title,
-            'maxPoints' => $maxPoints,
-            'deadline'  => $deadline
+            'subjectId'    => $subjectId,
+            'typeId'       => $typeId,
+            'title'        => $title,
+            'maxPoints'    => $maxPoints,
+            'deadline'     => $deadline,
+            'earnedPoints' => $earnedPoints,
+            'isCompleted'  => $isCompleted
         ]);
 
         return $this->pdo->lastInsertId();
@@ -61,6 +63,23 @@ class Assignments extends Model
             'isCompleted'  => $isCompleted,
             'id'           => $id,
             'userId'       => $this->userId
+        ]);
+    }
+    public function updateAssignmentDetails($id, $teammembers, $notes)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE Assignments a
+            JOIN Subjects sub ON a.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            SET a.TeamMembers = :teammembers, a.Notes = :notes
+            WHERE a.ID = :id AND sem.UserID = :userId
+        ");
+
+        return $stmt->execute([
+            'teammembers' => $teammembers,
+            'notes'       => $notes,
+            'id'          => $id,
+            'userId'      => $this->userId
         ]);
     }
 }
