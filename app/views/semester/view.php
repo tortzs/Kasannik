@@ -259,19 +259,26 @@ var_dump($semester);
                     const tableBody = subjectTable.querySelector('tbody');
 
                     const row = document.createElement('tr');
-                    console.log(data);
+
                     row.innerHTML = `
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>
-                                  <form method="post" action="/subject/delete" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
+                            <td>0.00 / 100</td> <td></td> <td>
+                                <a href="/subject/view/${data.subjectId}">
+                                    <button type="button">Przejdź</button>
+                                </a>
+                                <button type="button" class="open-update-modal" style="display:inline-block;"
+                                        data-id="${data.subjectId}"
+                                        data-maxpoints="100"
+                                        data-description="">
+                                    Aktualizuj
+                                </button>
+                                <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                     <input type="hidden" name="subjectId" value="${data.subjectId}">
                                     <input type="hidden" name="semesterId" value="<?= (int)$semester['ID'] ?>">
-                                    <button type="submit">
-                                        Usuń
-                                    </button>
+                                    <button type="submit">Usuń</button>
                                 </form>
                             </td>
                     `;
@@ -279,6 +286,14 @@ var_dump($semester);
                     row.children[0].textContent = subjectName;
                     row.children[1].textContent = subjectEcts;
                     row.children[2].textContent = subjectInstructor;
+
+                    const newUpdateBtn = row.querySelector('.open-update-modal');
+                    newUpdateBtn.addEventListener('click', function() {
+                        document.getElementById('modal_subject_id').value = this.dataset.id;
+                        document.getElementById('modal_max_points').value = this.dataset.maxpoints;
+                        document.getElementById('modal_description').value = this.dataset.description;
+                        document.getElementById('updateSubjectModal').style.display = 'block';
+                    });
 
                     tableBody.appendChild(row);
                     subjectForm.reset();
