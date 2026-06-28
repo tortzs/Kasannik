@@ -56,6 +56,7 @@ $router->get('/subject/view/{subject}', 'SubjectController@subjectView');
 // post
 $router->post('/subject/insert', 'SubjectController@subjectInsert');
 $router->post('/subject/delete', 'SubjectController@subjectDelete');
+$router->post('/subject/update', 'SubjectController@subjectUpdate');
 
 /*
  * Assignment

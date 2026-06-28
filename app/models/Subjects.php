@@ -102,4 +102,21 @@ class Subjects extends Semesters{
         $stmt->bindValue(':ID', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function updateSubjectDetails($subjectId, $maxPoints, $description)
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE Subjects sub
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            SET sub.MaxPossiblePoints = :maxPoints, sub.GeneralNotes = :description
+            WHERE sub.ID = :subjectId AND sem.UserID = :userId
+        ");
+
+        return $stmt->execute([
+            'maxPoints'   => $maxPoints,
+            'description' => $description,
+            'subjectId'   => $subjectId,
+            'userId'      => $this->userId
+        ]);
+    }
 }

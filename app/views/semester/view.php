@@ -27,7 +27,7 @@ var_dump($semester);
             Punkty
         </th>
         <th>
-            Szczegóły
+            Opis
         </th>
         <th>
             Akcje
@@ -60,7 +60,7 @@ var_dump($semester);
                     <button type="button">Przejdź</button>
                 </a>
                 <button type="button" class="open-update-modal" style="display:inline-block;"
-                        data-id="<?php echo (int)$subject['ID']; ?>"
+                        data-id="<?php echo (int)$subject['SubjectID']; ?>"
                         data-maxpoints="<?php echo htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? ''); ?>"
                         data-description="<?php echo htmlspecialchars($subject['SubjectDescription'] ?? ''); ?>">
                     Aktualizuj
