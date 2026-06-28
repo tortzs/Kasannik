@@ -24,6 +24,9 @@ var_dump($semester);
             Instruktor
         </th>
         <th>
+            Linki
+        </th>
+        <th>
             Punkty
         </th>
         <th>
@@ -38,6 +41,20 @@ var_dump($semester);
     <?php
     foreach ($subjects as $subject) {
         ?>
+        <?php
+        $linksArray = [];
+        if (!empty($subject['LinksData'])) {
+            $pairs = explode('||', $subject['LinksData']);
+            foreach ($pairs as $pair) {
+                $parts = explode('::', $pair);
+                if (count($parts) === 2) {
+                    $linksArray[$parts[0]] = $parts[1];
+                }
+            }
+        }
+        $usosUrl = $linksArray['USOS'] ?? '';
+        $moodleUrl = $linksArray['KURS'] ?? '';
+        ?>
         <tr>
             <td>
                 <?php echo $subject['SubjectName']; ?>
@@ -48,6 +65,19 @@ var_dump($semester);
             </td>
             <td>
                 <?php echo $subject['LecturerFirstName'] . ' ' . $subject['LecturerLastName']; ?>
+            </td>
+            <td>
+                <?php if (!empty($usosUrl)): ?>
+                    <a href="<?php echo htmlspecialchars($usosUrl); ?>" target="_blank">
+                        <button type="button" style="padding: 2px 6px; font-size: 0.85em; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 3px;">USOS</button>
+                    </a>
+                <?php endif; ?>
+
+                <?php if (!empty($moodleUrl)): ?>
+                    <a href="<?php echo htmlspecialchars($moodleUrl); ?>" target="_blank">
+                        <button type="button" style="padding: 2px 6px; font-size: 0.85em; background-color: #f98012; color: white; border: none; border-radius: 4px; cursor: pointer;">KURS</button>
+                    </a>
+                <?php endif; ?>
             </td>
             <td>
                 <?php echo $subject['SubjectPoints'] . ' / ' . $subject['SubjectMaxPossiblePoints']; ?>
@@ -62,7 +92,9 @@ var_dump($semester);
                 <button type="button" class="open-update-modal" style="display:inline-block;"
                         data-id="<?php echo (int)$subject['SubjectID']; ?>"
                         data-maxpoints="<?php echo htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? ''); ?>"
-                        data-description="<?php echo htmlspecialchars($subject['SubjectDescription'] ?? ''); ?>">
+                        data-description="<?php echo htmlspecialchars($subject['SubjectDescription'] ?? ''); ?>"
+                        data-usoslink="<?php echo htmlspecialchars($usosUrl); ?>"
+                        data-moodlelink="<?php echo htmlspecialchars($moodleUrl); ?>">
                     Aktualizuj
                 </button>
                 <form method="post" action="/subject/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć przedmiot?');">
@@ -160,6 +192,16 @@ var_dump($semester);
                 <textarea name="description" id="modal_description" style="width:100%; padding:5px; min-height:80px;"></textarea>
             </div>
 
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Link USOSweb:</label>
+                <input type="url" name="usos_link" id="modal_usos_link" placeholder="https://usosweb.polsl.pl/..." style="width:100%; padding:5px; box-sizing: border-box;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display:block; margin-bottom:5px;">Link KURS (Moodle):</label>
+                <input type="url" name="moodle_link" id="modal_moodle_link" placeholder="https://platforma.polsl.pl/..." style="width:100%; padding:5px; box-sizing: border-box;">
+            </div>
+
             <div style="text-align:right;">
                 <button type="button" id="closeSubjectModalBtn" style="margin-right:10px;">Anuluj</button>
                 <button type="submit">Zapisz zmiany</button>
@@ -178,6 +220,8 @@ var_dump($semester);
                 document.getElementById('modal_subject_id').value = this.dataset.id;
                 document.getElementById('modal_max_points').value = this.dataset.maxpoints;
                 document.getElementById('modal_description').value = this.dataset.description;
+                document.getElementById('modal_usos_link').value = this.dataset.usoslink || '';
+                document.getElementById('modal_moodle_link').value = this.dataset.moodlelink || '';
 
                 modal.style.display = 'block';
             });
@@ -261,6 +305,7 @@ var_dump($semester);
                     const row = document.createElement('tr');
 
                     row.innerHTML = `
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

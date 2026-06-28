@@ -25,6 +25,10 @@ class Subjects extends Semesters{
             Sub.GeneralNotes AS SubjectDescription,
             
             IFNULL(SUM(A.EarnedPoints), 0) AS SubjectPoints,
+            
+            (SELECT GROUP_CONCAT(CONCAT(LinkName, '::', Url) SEPARATOR '||') 
+             FROM SubjectLinks 
+             WHERE SubjectID = Sub.ID) AS LinksData,
 
             L.ID AS LecturerID,
             L.FirstName AS LecturerFirstName,
@@ -123,5 +127,29 @@ class Subjects extends Semesters{
             'subjectId'   => $subjectId,
             'userId'      => $this->userId
         ]);
+    }
+
+    public function saveSubjectLinks($subjectId, $usosUrl, $moodleUrl)
+    {
+        $stmtDel = $this->pdo->prepare("
+            DELETE sl FROM SubjectLinks sl
+            JOIN Subjects sub ON sl.SubjectID = sub.ID
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            WHERE sl.SubjectID = :subId AND sem.UserID = :userId 
+              AND sl.LinkName IN ('USOS', 'KURS')
+        ");
+        $stmtDel->execute([
+            'subId'  => $subjectId,
+            'userId' => $this->userId
+        ]);
+
+        if (!empty($usosUrl)) {
+            $stmtIn = $this->pdo->prepare("INSERT INTO SubjectLinks (SubjectID, LinkName, Url) VALUES (:subId, 'USOS', :url)");
+            $stmtIn->execute(['subId' => $subjectId, 'url' => $usosUrl]);
+        }
+        if (!empty($moodleUrl)) {
+            $stmtIn = $this->pdo->prepare("INSERT INTO SubjectLinks (SubjectID, LinkName, Url) VALUES (:subId, 'KURS', :url)");
+            $stmtIn->execute(['subId' => $subjectId, 'url' => $moodleUrl]);
+        }
     }
 }

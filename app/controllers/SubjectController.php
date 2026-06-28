@@ -135,13 +135,17 @@ class SubjectController extends Controller
         $subjectId = (int)($_POST['subjectId'] ?? 0);
         $semesterId = (int)($_POST['semesterId'] ?? 0);
 
-        $maxPoints = $_POST['max_points'] !== '' ? (float)str_replace(',', '.', $_POST['max_points']) : null;
-
+        $maxPoints = (isset($_POST['max_points']) && $_POST['max_points'] !== '')
+            ? (float)str_replace(',', '.', $_POST['max_points'])
+            : null;
         $description = trim($_POST['description'] ?? '');
+        $usosLink = trim($_POST['usos_link'] ?? '');
+        $moodleLink = trim($_POST['moodle_link'] ?? '');
 
         if ($subjectId > 0) {
             $subjectModel = new Subjects();
             $subjectModel->updateSubjectDetails($subjectId, $maxPoints, $description);
+            $subjectModel->saveSubjectLinks($subjectId, $usosLink, $moodleLink);
         }
 
         if ($semesterId > 0) {
