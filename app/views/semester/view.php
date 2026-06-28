@@ -24,6 +24,12 @@ var_dump($semester);
             Instruktor
         </th>
         <th>
+            Punkty
+        </th>
+        <th>
+            Szczegóły
+        </th>
+        <th>
             Akcje
         </th>
     </tr>
@@ -31,6 +37,7 @@ var_dump($semester);
     <tbody>
     <?php
     foreach ($subjects as $subject) {
+        var_dump($subjects) //do usuniecia
         ?>
         <tr>
             <td>
@@ -42,6 +49,12 @@ var_dump($semester);
             </td>
             <td>
                 <?php echo $subject['LecturerFirstName'] . ' ' . $subject['LecturerLastName']; ?>
+            </td>
+            <td>
+                <?php echo $subject['SubjectPoints'] . '/' . $subject['SubjectMaxPossiblePoints']; ?>
+            </td>
+            <td>
+                <?php echo $subject['SubjectDescription']; ?>
             </td>
             <td>
                 <a href="/subject/view/<?php echo urlencode($subject['SubjectID']) ?>">

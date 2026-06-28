@@ -21,6 +21,8 @@ class Subjects extends Semesters{
             Sub.ECTS AS SubjectECTS,
             Sub.SemesterID,
             Sub.InstructorID,
+            Sub.MaxPossiblePoints AS SubjectMaxPossiblePoints,
+            Sub.GeneralNotes AS SubjectDescription,
 
             L.ID AS LecturerID,
             L.FirstName AS LecturerFirstName,
