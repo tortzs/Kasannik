@@ -50,7 +50,7 @@ var_dump($semester);
                 <?php echo $subject['LecturerFirstName'] . ' ' . $subject['LecturerLastName']; ?>
             </td>
             <td>
-                <?php echo $subject['SubjectPoints'] . '/' . $subject['SubjectMaxPossiblePoints']; ?>
+                <?php echo $subject['SubjectPoints'] . ' / ' . $subject['SubjectMaxPossiblePoints']; ?>
             </td>
             <td>
                 <?php echo $subject['SubjectDescription']; ?>

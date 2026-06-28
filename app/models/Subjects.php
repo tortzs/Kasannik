@@ -23,6 +23,8 @@ class Subjects extends Semesters{
             Sub.InstructorID,
             Sub.MaxPossiblePoints AS SubjectMaxPossiblePoints,
             Sub.GeneralNotes AS SubjectDescription,
+            
+            IFNULL(SUM(A.EarnedPoints), 0) AS SubjectPoints,
 
             L.ID AS LecturerID,
             L.FirstName AS LecturerFirstName,
@@ -32,8 +34,11 @@ class Subjects extends Semesters{
             ON S.ID = Sub.SemesterID
         LEFT JOIN Lecturer L 
             ON L.ID = Sub.InstructorID
+        LEFT JOIN Assignments A 
+            ON Sub.ID = A.SubjectID
         WHERE Sub.SemesterID = :semesterId 
           AND S.UserID = :userId
+        GROUP BY Sub.ID, L.ID
     ");
 
         $stmt->bindValue(':semesterId', $semesterId, PDO::PARAM_INT);
