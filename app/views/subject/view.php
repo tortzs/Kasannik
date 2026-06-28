@@ -78,6 +78,15 @@
             <input form="add-assignment-form" type="number" step="0.5" name="assignment_points" placeholder="Max pkt" required>
         </td>
         <td>
+            <input form="add-assignment-form" type="number" step="0.5" name="assignment_earned_points" placeholder="Zdobyte" style="width: 80px;">
+        </td>
+        <td>
+            <label style="font-size: 0.9em;">
+                <input form="add-assignment-form" type="checkbox" name="assignment_is_completed" value="1">
+                Zakończone
+            </label>
+        </td>
+        <td>
             <input form="add-assignment-form" type="datetime-local" name="assignment_deadline" required>
         </td>
         <td>
@@ -186,7 +195,6 @@
             if (submitButton.name) {
                 formData.append(submitButton.name, submitButton.value);
             }
-            ler
             fetch('/assignment/insert', {
                 method: 'POST',
                 body: formData
@@ -204,11 +212,20 @@
                     const pointsInput = document.querySelector('[form="add-assignment-form"][name="assignment_points"]');
                     const deadlineInput = document.querySelector('[form="add-assignment-form"][name="assignment_deadline"]');
                     const typeSelect = document.querySelector('[form="add-assignment-form"][name="assignment_type"]');
+                    const earnedPointsInput = document.querySelector('[form="add-assignment-form"][name="assignment_earned_points"]');
+                    const isCompletedInput = document.querySelector('[form="add-assignment-form"][name="assignment_is_completed"]');
 
                     const title = titleInput.value.trim();
                     const points = pointsInput.value.trim();
-                    const deadline = deadlineInput.value.trim();
+                    const deadlineRaw = deadlineInput.value.trim();
+                    const formattedDeadline = deadlineRaw ? deadlineRaw.replace('T', ' ') + ':00' : '-';
                     const typeName = typeSelect.options[typeSelect.selectedIndex].textContent.trim();
+
+                    const earnedPointsRaw = earnedPointsInput.value.trim();
+                    const earnedPointsDisplay = earnedPointsRaw !== '' ? earnedPointsRaw : '-';
+                    const isCompleted = isCompletedInput.checked;
+                    const statusDisplay = isCompleted ? 'Zakończone' : 'Do zrobienia';
+                    const isCompletedVal = isCompleted ? '1' : '0';
 
                     const tableBody = document.querySelector('#assignments-table tbody');
 
@@ -219,8 +236,16 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
-                                  <form method="post" action="/assignment/delete" onsubmit="return confirm('Na pewno usunąć zadanie?');">
+                                <button type="button" class="open-update-modal" style="display:inline-block;"
+                                        data-id="${data.assignmentId}"
+                                        data-points="${earnedPointsRaw}"
+                                        data-completed="${isCompletedVal}">
+                                    Aktualizuj
+                                </button>
+                                <form method="post" action="/assignment/delete" style="display:inline-block;" onsubmit="return confirm('Na pewno usunąć zadanie?');">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                     <input type="hidden" name="assignmentId" value="${data.assignmentId}">
                                     <input type="hidden" name="subjectId" value="<?= (int)$subject['ID'] ?>">
@@ -232,7 +257,17 @@
                     row.children[0].textContent = title;
                     row.children[1].textContent = typeName;
                     row.children[2].textContent = points;
-                    row.children[3].textContent = deadline;
+                    row.children[3].textContent = earnedPointsDisplay;
+                    row.children[4].textContent = statusDisplay;
+                    row.children[5].textContent = formattedDeadline;
+
+                    const newUpdateBtn = row.querySelector('.open-update-modal');
+                    newUpdateBtn.addEventListener('click', function() {
+                        document.getElementById('modal_assignment_id').value = this.dataset.id;
+                        document.getElementById('modal_earned_points').value = this.dataset.points;
+                        document.getElementById('modal_is_completed').checked = (this.dataset.completed === '1');
+                        document.getElementById('updateModal').style.display = 'block';
+                    });
 
                     tableBody.appendChild(row);
                     assignmentForm.reset();

@@ -19,6 +19,8 @@ class AssignmentController
         $points = (float)($_POST['assignment_points'] ?? 0);
         $deadline = $_POST['assignment_deadline'] ?? '';
         $subjectId = (int)($_POST['assignment_subject'] ?? 0);
+        $earnedPoints = $_POST['assignment_earned_points'] !== '' ? (float)$_POST['assignment_earned_points'] : null;
+        $isCompleted = isset($_POST['assignment_is_completed']) ? 1 : 0;
 
         if (empty($title) || empty($typeId) || empty($points) || empty($deadline) || empty($subjectId)) {
             echo json_encode(['success' => false, 'message' => 'Wypełnij wszystkie wymagane pola.']);
@@ -26,7 +28,7 @@ class AssignmentController
         }
 
         $assignmentModel = new Assignments();
-        $newId = $assignmentModel->insertAssignment($subjectId, $typeId, $title, $points, $deadline);
+        $newId = $assignmentModel->insertAssignment($subjectId, $typeId, $title, $points, $deadline, $earnedPoints, $isCompleted);
 
         if ($newId) {
             echo json_encode([

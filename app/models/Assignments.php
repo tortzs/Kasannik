@@ -21,19 +21,21 @@ class Assignments extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertAssignment($subjectId, $typeId, $title, $maxPoints, $deadline)
+    public function insertAssignment($subjectId, $typeId, $title, $maxPoints, $deadline, $earnedPoints = null, $isCompleted = 0)
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO Assignments (SubjectID, TypeID, Title, MaxPoints, Deadline, IsCompleted)
-            VALUES (:subjectId, :typeId, :title, :maxPoints, :deadline, 0)
+            INSERT INTO Assignments (SubjectID, TypeID, Title, MaxPoints, Deadline, EarnedPoints, IsCompleted)
+            VALUES (:subjectId, :typeId, :title, :maxPoints, :deadline, :earnedPoints, :isCompleted)
         ");
 
         $stmt->execute([
-            'subjectId' => $subjectId,
-            'typeId'    => $typeId,
-            'title'     => $title,
-            'maxPoints' => $maxPoints,
-            'deadline'  => $deadline
+            'subjectId'    => $subjectId,
+            'typeId'       => $typeId,
+            'title'        => $title,
+            'maxPoints'    => $maxPoints,
+            'deadline'     => $deadline,
+            'earnedPoints' => $earnedPoints,
+            'isCompleted'  => $isCompleted
         ]);
 
         return $this->pdo->lastInsertId();
