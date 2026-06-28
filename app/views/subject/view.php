@@ -36,8 +36,8 @@
                     <span class="open-details-modal" style="cursor: pointer; color: #007bff; text-decoration: underline; font-weight: bold;"
                           data-id="<?php echo (int)$assignment['ID']; ?>"
                           data-title="<?php echo htmlspecialchars($assignment['Title']); ?>"
-                          data-team="<?php echo htmlspecialchars($assignment['Team'] ?? ''); ?>"
-                          data-description="<?php echo htmlspecialchars($assignment['Description'] ?? ''); ?>">
+                          data-teammembers="<?php echo htmlspecialchars($assignment['TeamMembers'] ?? ''); ?>"
+                          data-notes="<?php echo htmlspecialchars($assignment['Notes'] ?? ''); ?>">
                         <?php echo htmlspecialchars($assignment['Title']); ?>
                     </span>
                 </td>
@@ -143,7 +143,13 @@
 
 <div id="detailsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1001;">
     <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:8px; width:450px; max-width:90%; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-        <h3 id="details_modal_title" style="margin-top:0;">Szczegóły zadania</h3>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 id="details_modal_title" style="margin:0;">Szczegóły zadania</h3>
+            <button type="button" id="toggleEditBtn" style="background: #f0f0f0; border: 1px solid #ccc; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                🔒 Odblokuj
+            </button>
+        </div>
 
         <form method="post" action="/assignment/update-details">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
@@ -152,17 +158,17 @@
 
             <div style="margin-bottom: 15px;">
                 <label style="display:block; margin-bottom:5px; font-weight:bold;">Zespół / Osoby realizujące:</label>
-                <input type="text" name="team" id="details_modal_team" placeholder="" style="width:100%; padding:6px; box-sizing: border-box;">
+                <input type="text" name="teammembers" id="details_modal_teammembers" placeholder="Brak przypisanych osób..." style="width:100%; padding:6px; box-sizing: border-box; background-color: #f9f9f9;" readonly>
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="display:block; margin-bottom:5px; font-weight:bold;">Opis, cele i zagadnienia:</label>
-                <textarea name="description" id="details_modal_description" placeholder="Wpisz wymagania, agendę, linki lub zagadnienia na kolokwium..." style="width:100%; padding:6px; min-height:120px; box-sizing: border-box; resize: vertical;"></textarea>
+                <textarea name="notes" id="details_modal_notes" placeholder="Brak notatek..." style="width:100%; padding:6px; min-height:120px; box-sizing: border-box; resize: vertical; background-color: #f9f9f9;" readonly></textarea>
             </div>
 
             <div style="text-align:right;">
-                <button type="button" id="closeDetailsModalBtn" style="margin-right:10px;">Anuluj</button>
-                <button type="submit">Zapisz szczegóły</button>
+                <button type="button" id="closeDetailsModalBtn" style="margin-right:10px;">Zamknij</button>
+                <button type="submit" id="saveDetailsBtn" style="display: none;">Zapisz szczegóły</button>
             </div>
         </form>
     </div>
@@ -192,8 +198,24 @@
                 modal.style.display = 'none';
             }
         });
+
         const detailsModal = document.getElementById('detailsModal');
         const closeDetailsBtn = document.getElementById('closeDetailsModalBtn');
+        const toggleEditBtn = document.getElementById('toggleEditBtn');
+        const saveDetailsBtn = document.getElementById('saveDetailsBtn');
+
+        const teamInput = document.getElementById('details_modal_teammembers');
+        const notesInput = document.getElementById('details_modal_notes');
+
+        function lockModal() {
+            teamInput.readOnly = true;
+            notesInput.readOnly = true;
+            teamInput.style.backgroundColor = '#f9f9f9';
+            notesInput.style.backgroundColor = '#f9f9f9';
+            toggleEditBtn.innerHTML = '🔒 Odblokuj';
+            saveDetailsBtn.style.display = 'none';
+            closeDetailsBtn.textContent = 'Zamknij';
+        }
 
         document.querySelector('#assignments-table').addEventListener('click', function (e) {
             const target = e.target.closest('.open-details-modal');
@@ -201,10 +223,61 @@
 
             document.getElementById('details_modal_assignment_id').value = target.dataset.id;
             document.getElementById('details_modal_title').textContent = "Szczegóły: " + target.dataset.title;
-            document.getElementById('details_modal_team').value = target.dataset.team;
-            document.getElementById('details_modal_description').value = target.dataset.description;
 
+            teamInput.value = target.dataset.teammembers || '';
+            notesInput.value = target.dataset.notes || '';
+
+            lockModal();
             detailsModal.style.display = 'block';
+        });
+
+        toggleEditBtn.addEventListener('click', function() {
+            if (teamInput.readOnly) {
+                teamInput.readOnly = false;
+                notesInput.readOnly = false;
+                teamInput.style.backgroundColor = '#fff';
+                notesInput.style.backgroundColor = '#fff';
+                toggleEditBtn.innerHTML = '🔓 Zablokuj i zapisz';
+                saveDetailsBtn.style.display = 'inline-block';
+                closeDetailsBtn.textContent = 'Anuluj';
+            } else {
+                saveDetailsBtn.click();
+            }
+        });
+
+        const detailsForm = document.querySelector('#detailsModal form');
+
+        detailsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            toggleEditBtn.innerHTML = '⏳ Zapisywanie...';
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const assignmentId = document.getElementById('details_modal_assignment_id').value;
+                        const targetSpan = document.querySelector(`.open-details-modal[data-id="${assignmentId}"]`);
+                        if (targetSpan) {
+                            targetSpan.dataset.teammembers = teamInput.value;
+                            targetSpan.dataset.notes = notesInput.value;
+                        }
+
+                        lockModal();
+                    } else {
+                        alert('Wystąpił błąd podczas zapisu.');
+                        toggleEditBtn.innerHTML = '🔓 Zablokuj i zapisz';
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Wystąpił błąd połączenia z serwerem.');
+                    toggleEditBtn.innerHTML = '🔓 Zablokuj i zapisz';
+                });
         });
 
         closeDetailsBtn.addEventListener('click', function() {
