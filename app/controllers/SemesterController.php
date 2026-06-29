@@ -193,6 +193,11 @@ class SemesterController extends Controller
                 'message' => 'Semestr został dodany poprawnie',
                 'action' => $_POST['action'] ?? 'save'
             ]);
+            if ($isCurrent === 1) {
+                $_SESSION['active_semester_name'] = $name;
+            } elseif (isset($_SESSION['active_semester_name']) && $_SESSION['active_semester_name'] === $name) {
+                $_SESSION['active_semester_name'] = null;
+            }
             return;
         }
 

@@ -12,7 +12,7 @@
                 <img src="placeholder_avatar.jpg" alt="Avatar" class="avatar">
                 <div class="profile-name"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Użytkownik'); ?></div>
                 <div class="profile-role">Student</div>
-                <span class="semester-badge">SEMESTR 4</span>
+                <span class="semester-badge"><?php echo htmlspecialchars($_SESSION['active_semester_name'] ?? 'Brak aktywnego semestru'); ?></span>
             </a>
             <a href="/user/logout" class="logout-btn">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Wyloguj się

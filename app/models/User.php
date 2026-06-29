@@ -25,6 +25,11 @@ class User extends Model
         $_SESSION['userID'] = $user['ID'];
         $_SESSION['username'] = $user['Username'];
 
+        $stmtSem = $this->pdo->prepare("SELECT Name FROM Semesters WHERE UserID = :userId AND IsCurrent = 1 LIMIT 1");
+        $stmtSem->execute(['userId' => $user['ID']]);
+        $activeSemesterName = $stmtSem->fetchColumn();
+        $_SESSION['active_semester_name'] = $activeSemesterName ? $activeSemesterName : null;
+
         return true;
     }
 
