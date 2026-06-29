@@ -47,4 +47,49 @@ class User extends Model
         unset($_SESSION['userID']);
         return true;
     }
+
+    public function updateProfile(int $userId, string $username, string $email, ?string $password = null): bool
+    {
+        if ($password !== null) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $this->pdo->prepare("
+                UPDATE Users 
+                SET Username = :username, Email = :email, Password = :password 
+                WHERE ID = :id
+            ");
+
+            return $stmt->execute([
+                'username' => $username,
+                'email'    => $email,
+                'password' => $hashedPassword,
+                'id'       => $userId
+            ]);
+        } else {
+            $stmt = $this->pdo->prepare("
+                UPDATE Users 
+                SET Username = :username, Email = :email 
+                WHERE ID = :id
+            ");
+
+            return $stmt->execute([
+                'username' => $username,
+                'email'    => $email,
+                'id'       => $userId
+            ]);
+        }
+    }
+    public function getUserById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT ID, Username, Email, CreatedAt, ThemePreference 
+            FROM Users 
+            WHERE ID = :id
+        ");
+
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ?: null;
+    }
 }
