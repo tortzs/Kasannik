@@ -74,7 +74,7 @@
                     foreach ($upcomingTodos as $todo):
                     ?>
                     <label class="todo-item">
-                        <input type="checkbox">
+                        <input type="checkbox" onclick="window.location.href='/todo'; return false;">
                         <span class="todo-text"><?= htmlspecialchars($todo['TaskDesc']) ?></span>
                         <span class="priority-badge high"><?= htmlspecialchars($todo['TargetDate']) ?>
                     </label>
