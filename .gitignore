@@ -35,4 +35,3 @@ Thumbs.db
 /uploads/
 /public/uploads/avatars/*
 !/public/uploads/avatars/.gitkeep
-!/public/uploads/.htaccess
