@@ -11,8 +11,9 @@ $router->get('/dashboard', 'HomeController@dashboard');
  * Schedule
  */
 
-$router->get('/schedule', 'ScheduleController@schedule');
+$router->get('/schedule', 'ScheduleController@scheduleIndex');
 $router->get('/schedule/edit', 'ScheduleController@scheduleEdit');
+$router->get('/schedule/deadlines', 'ScheduleController@scheduleDeadlines');
 
 /*
  * Instructor
