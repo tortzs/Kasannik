@@ -1,34 +1,57 @@
 <?php
 /* @var array $semester */
 ?>
+<div class="main-content">
+<div class="page-header">
+    <div class="header-title">
+        <div class="title-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+        <div>
+            <h1>Edytuj semestr</h1>
+            <p>Edytujesz: <strong><?php echo htmlspecialchars($semester['Name'] ?? ''); ?></strong></p>
+        </div>
+    </div>
+</div>
 
-Edytuj semestr <strong><?php echo $semester['Name'] ?></strong>
-<form method="post" id="semester-edit-form">
-    <input
-            type="hidden"
-            name="csrf_token"
-            value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
-    >
-   <input
-            type="hidden"
-            name="semesterId"
-            value="<?= htmlspecialchars($semester['ID']) ?>"
-    >
+<div class="form-card" style="max-width: 800px;">
+    <div class="form-header">
+        <h2>Dane semestru</h2>
+    </div>
+    
+    <div class="form-body">
+        <form method="post" id="semester-edit-form">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+            <input type="hidden" name="semesterId" value="<?= htmlspecialchars($semester['ID'] ?? '') ?>">
 
-    <input type="text" value="<?php echo $semester['Name'] ?>" name="name" placeholder="Nazwa semestru" >
-    od
-    <input type="date" value="<?php echo $semester['StartDate'] ?>" name="start_date" placeholder="" required>
-    do
-    <input type="date" value="<?php echo $semester['EndDate'] ?>"   name="end_date" placeholder="" required>
-    <button type="submit" name="action" value="save">
-        Edytuj
-    </button>
+            <div class="form-grid">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Nazwa semestru</label>
+                    <input class="form-control" type="text" name="name" value="<?php echo htmlspecialchars($semester['Name'] ?? ''); ?>" placeholder="Nazwa semestru" required>
+                </div>
 
-</form>
+                <div class="form-group">
+                    <label>Data rozpoczęcia</label>
+                    <input class="form-control" type="date" name="start_date" value="<?php echo htmlspecialchars($semester['StartDate'] ?? ''); ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Data zakończenia</label>
+                    <input class="form-control" type="date" name="end_date" value="<?php echo htmlspecialchars($semester['EndDate'] ?? ''); ?>" required>
+                </div>
+            </div>
+
+            <div class="form-actions" style="margin-top: 30px; padding: 0;">
+                <a href="/semester" class="btn-secondary" style="margin-right: auto;">Anuluj</a>
+                <button type="submit" name="action" value="save" class="btn-primary">
+                    <i class="fa-solid fa-check"></i> Zapisz zmiany
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const semesterForm = document.querySelector('#semester-edit-form');
-
         if (!semesterForm) return;
 
         let isSubmitting = false;
@@ -47,47 +70,32 @@ Edytuj semestr <strong><?php echo $semester['Name'] ?></strong>
                 return;
             }
 
-            const originalButtonText = submitButton.textContent;
-
-            submitButtons.forEach(function (button) {
-                button.disabled = true;
-            });
-
+            const originalButtonText = submitButton.innerHTML;
+            submitButtons.forEach(button => button.disabled = true);
             submitButton.textContent = 'Edytowanie...';
 
             const formData = new FormData(semesterForm);
-
-            if (submitButton.name) {
-                formData.append(submitButton.name, submitButton.value);
-            }
+            if (submitButton.name) formData.append(submitButton.name, submitButton.value);
 
             fetch('/semester/update', {
                 method: 'POST',
                 body: formData
             })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    if (!data.success) {
-                        alert(data.message);
-                        return;
-                    }
-
-                    window.location.href = '/semester';
-                })
-                .catch(function () {
-                    alert('Wystąpił błąd połączenia');
-                })
-                .finally(function () {
-                    isSubmitting = false;
-
-                    submitButtons.forEach(function (button) {
-                        button.disabled = false;
-                    });
-
-                    submitButton.textContent = originalButtonText;
-                });
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert(data.message);
+                    return;
+                }
+                window.location.href = '/semester';
+            })
+            .catch(() => alert('Wystąpił błąd połączenia'))
+            .finally(() => {
+                isSubmitting = false;
+                submitButtons.forEach(button => button.disabled = false);
+                submitButton.innerHTML = originalButtonText;
+            });
         });
     });
 </script>
+</div>

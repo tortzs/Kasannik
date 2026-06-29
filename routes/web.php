@@ -41,6 +41,7 @@ $router->post('/semester/update', 'SemesterController@semesterUpdate');
  * User
  */
 // get
+
 $router->get('/register', 'AuthController@userRegister');
 $router->get('/login', 'AuthController@userLogin');
 $router->get('/user', 'AuthController@user');

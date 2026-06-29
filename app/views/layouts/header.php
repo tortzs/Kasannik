@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 <aside class="sidebar">
         <a href="/dashboard" class="sidebar-logo">
             <span class="logo-badge">01</span>

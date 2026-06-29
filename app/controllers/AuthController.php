@@ -130,4 +130,6 @@ class AuthController extends Controller
     {
         $this->view("user/login");
     }
+
+
 }
