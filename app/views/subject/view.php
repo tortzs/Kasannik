@@ -172,7 +172,7 @@
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Zdobyte punkty (opcjonalnie):</label>
-                        <input class="form-control" type="number" step="0.5" name="earned_points" id="modal_earned_points" value="">
+                        <input class="form-control" type="number" min="0" step="0.5" name="earned_points" id="modal_earned_points" value="">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 25px;">
