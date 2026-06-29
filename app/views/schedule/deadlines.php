@@ -1,7 +1,7 @@
 <?php
 /** @var array $assignments */
 ?>
-
+<div class="main-content">
 <div class="page-header">
     <div class="header-title">
         <div class="title-icon"><i class="fa-solid fa-clipboard-list"></i></div>
@@ -76,4 +76,5 @@
             Brak nadchodzących terminów. Możesz odpocząć!
         </div>
     <?php } ?>
+</div>
 </div>
