@@ -10,6 +10,7 @@ $router->get('/dashboard', 'HomeController@dashboard');
 /*
  * Schedule
  */
+
 $router->get('/schedule', 'ScheduleController@schedule');
 $router->get('/schedule/edit', 'ScheduleController@scheduleEdit');
 

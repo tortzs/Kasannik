@@ -15,4 +15,5 @@ class ScheduleController extends Controller
         $this->view("schedule/edit");
     }
 
+    
 }
