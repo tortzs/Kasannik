@@ -10,8 +10,8 @@ class Controller
 
         extract($data);
 
-        $viewPath = APP_PATH . '/Views/' . $view . '.php';
-        $layoutPath = APP_PATH . '/Views/layouts/' . $layout . '.php';
+        $viewPath = APP_PATH . '/views/' . $view . '.php';
+        $layoutPath = APP_PATH . '/views/layouts/' . $layout . '.php';
 
         if (!file_exists($viewPath)) {
             echo "Widok {$view} nie istnieje";

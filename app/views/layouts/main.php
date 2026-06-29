@@ -13,12 +13,12 @@ $title = $title ?? 'Kasannik';
 </head>
 <body>
 
-<?php require APP_PATH . '/Views/layouts/header.php'; ?>
+<?php require APP_PATH . '/views/layouts/header.php'; ?>
 
 <main class="page-content">
     <?= $content ?>
 </main>
 
-<?php require APP_PATH . '/Views/layouts/footer.php'; ?>
+<?php require APP_PATH . '/views/layouts/footer.php'; ?>
 </body>
 </html>

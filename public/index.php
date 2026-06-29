@@ -51,9 +51,9 @@ define('APP_PATH', ROOT_PATH . '/app');
 
 spl_autoload_register(function ($className) {
     $paths = [
-            APP_PATH . '/Core/' . $className . '.php',
-            APP_PATH . '/Controllers/' . $className . '.php',
-            APP_PATH . '/Models/' . $className . '.php',
+            APP_PATH . '/core/' . $className . '.php',
+            APP_PATH . '/controllers/' . $className . '.php',
+            APP_PATH . '/models/' . $className . '.php',
     ];
 
     foreach ($paths as $path) {
