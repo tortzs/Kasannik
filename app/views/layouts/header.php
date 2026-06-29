@@ -10,7 +10,7 @@
         <div class="sidebar-profile-container">
             <a href="/user" class="profile-card">
                 <img src="placeholder_avatar.jpg" alt="Avatar" class="avatar">
-                <div class="profile-name">Miku</div>
+                <div class="profile-name"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Użytkownik'); ?></div>
                 <div class="profile-role">Student</div>
                 <span class="semester-badge">SEMESTR 4</span>
             </a>

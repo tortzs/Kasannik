@@ -185,7 +185,7 @@ class AuthController extends Controller
         }*/
         header('Content-Type: application/json');
         if ($success) {
-            $_SESSION['user_username'] = $username;
+            $_SESSION['username'] = $username;
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Wystąpił błąd podczas zapisu w bazie danych.']);

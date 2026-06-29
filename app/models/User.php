@@ -23,6 +23,7 @@ class User extends Model
 
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['userID'] = $user['ID'];
+        $_SESSION['username'] = $user['Username'];
 
         return true;
     }
