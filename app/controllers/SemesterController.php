@@ -4,7 +4,7 @@ class SemesterController extends Controller
 {
     public function semester()
     {
-        $semesters = new semesters();
+        $semesters = new Semesters();
         $data = [
             'semesters' => $semesters->getAll(),
         ];
@@ -14,7 +14,7 @@ class SemesterController extends Controller
     {
         $instructors = new Instructors();
         $instructorsList = $instructors->getAll();
-        $semesters = new semesters();
+        $semesters = new Semesters();
         if($semesterId != 'current') {
             $currentSemester = $semesters->getById($semesterId);
         }else{
@@ -38,7 +38,7 @@ class SemesterController extends Controller
 
     public function semesterEdit(string $semesterId)
     {
-        $semesters = new semesters();
+        $semesters = new Semesters();
 
 
         if (!$semesterId) {
@@ -178,7 +178,7 @@ class SemesterController extends Controller
         }
 
 
-        $semestersModel = new semesters();
+        $semestersModel = new Semesters();
         $updated = $semestersModel->semesterEdit(
             $id,
             $name,
@@ -229,7 +229,7 @@ class SemesterController extends Controller
             exit;
         }
 
-        $semesters = new semesters();
+        $semesters = new Semesters();
         $semesters->semesterDelete($semesterId);
 
         header('Location: /semester');
