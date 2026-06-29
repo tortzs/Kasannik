@@ -163,6 +163,7 @@ class AuthController extends Controller
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['new_password'] ?? '';
         $themePreference = $_POST['theme_preference'] ?? 'Light';
+        $avatarFilename = null;
 
         /*if (empty($username) || empty($email)) {
             die('Nazwa użytkownika i adres e-mail nie mogą być puste.');
@@ -172,10 +173,38 @@ class AuthController extends Controller
             exit;
         }
 
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $tmpPath = $_FILES['avatar']['tmp_name'];
+
+            $mime = mime_content_type($tmpPath);
+            $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (in_array($mime, $allowedMimes)) {
+                $image = null;
+                if ($mime === 'image/jpeg') $image = imagecreatefromjpeg($tmpPath);
+                elseif ($mime === 'image/png') $image = imagecreatefrompng($tmpPath);
+                elseif ($mime === 'image/webp') $image = imagecreatefromwebp($tmpPath);
+
+                if ($image !== false) {
+                    $resizedImage = imagescale($image, 256, 256);
+
+                    $avatarFilename = 'avatar_' . $userId . '_' . uniqid() . '.jpg';
+                    $destination = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
+                    imagejpeg($resizedImage, $destination, 85);
+
+                    imagedestroy($image);
+                    imagedestroy($resizedImage);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Niedozwolony format pliku. Użyj JPG lub PNG.']);
+                exit;
+            }
+        }
+
         $passwordParam = !empty($password) ? $password : null;
 
         $userModel = new User();
-        $success = $userModel->updateProfile($userId, $username, $email, $passwordParam, $themePreference);
+        $success = $userModel->updateProfile($userId, $username, $email, $passwordParam, $themePreference, $avatarFilename);
         /*try {
             $success = $userModel->updateProfile($userId, $username, $email, $passwordParam);
         } catch (\Throwable $e) {

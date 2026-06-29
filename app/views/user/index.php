@@ -18,7 +18,7 @@
     </div>
     
     <div class="form-body">
-        <form method="post" id="profile-edit-form" action="/user/update">
+        <form method="post" id="profile-edit-form" action="/user/update" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
 
             <div class="form-grid">
@@ -36,6 +36,10 @@
                                     Dołączył(a): <?php echo htmlspecialchars(date('d.m.Y', strtotime($user['CreatedAt']))); ?>
                                 </p>
                             <?php endif; ?>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Zmień avatar (tylko JPG/PNG)</label>
+                            <input class="form-control" type="file" name="avatar" accept="image/jpeg, image/png">
                         </div>
                     </div>
                 </div>

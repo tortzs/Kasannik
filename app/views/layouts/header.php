@@ -9,7 +9,11 @@
 
         <div class="sidebar-profile-container">
             <a href="/user" class="profile-card">
-                <img src="placeholder_avatar.jpg" alt="Avatar" class="avatar">
+                <?php if (!empty($_SESSION['avatar'])): ?>
+                    <img src="/uploads/avatars/<?= htmlspecialchars($_SESSION['avatar']) ?>" alt="Avatar" class="avatar">
+                <?php else: ?>
+                    <i class="fa-solid fa-user"></i>
+                <?php endif; ?>
                 <div class="profile-name"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Użytkownik'); ?></div>
                 <div class="profile-role">Student</div>
                 <span class="semester-badge"><?php echo htmlspecialchars($_SESSION['active_semester_name'] ?? 'Brak aktywnego semestru'); ?></span>

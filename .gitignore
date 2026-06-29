@@ -33,3 +33,5 @@ Thumbs.db
 
 # Uploads/private files
 /uploads/
+/public/uploads/avatars/*
+!/public/uploads/avatars/.gitkeep

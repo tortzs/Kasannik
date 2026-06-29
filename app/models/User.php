@@ -54,8 +54,18 @@ class User extends Model
         return true;
     }
 
-    public function updateProfile(int $userId, string $username, string $email, ?string $password = null, string $themePreference = 'Light'): bool
+    public function updateProfile(int $userId, string $username, string $email, ?string $password = null, string $themePreference = 'Light', ?string $avatarFilename = null): bool
     {
+        if ($avatarFilename !== null) {
+            $stmtAvatar = $this->pdo->prepare("UPDATE Users SET Avatar = :avatar WHERE ID = :id");
+            $stmtAvatar->execute([
+                'avatar' => $avatarFilename,
+                'id'     => $userId
+            ]);
+
+            // Opcjonalnie: Zapisujemy do sesji, żeby sidebar od razu zaktualizował zdjęcie!
+            $_SESSION['avatar'] = $avatarFilename;
+        }
         if ($password !== null) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -91,6 +101,7 @@ class User extends Model
                 'id'       => $userId
             ]);
         }
+
     }
     public function getUserById(int $id): ?array
     {
