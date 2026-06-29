@@ -233,4 +233,25 @@ class SemesterController extends Controller
     {
         $this->view("semester/add");
     }
+
+    public function semesterActive()
+    {
+        if (!Auth::check()) {
+            header('Location: /login');
+            exit;
+        }
+
+        $userId = (int)$_SESSION['userID'];
+
+        $semesterModel = new Semesters();
+        $activeSemesterId = $semesterModel->getActiveSemesterId($userId);
+
+        if ($activeSemesterId !== null) {
+            header("Location: /semester/view/" . $activeSemesterId);
+            exit;
+        }
+
+        header("Location: /semester/");
+        exit;
+    }
 }

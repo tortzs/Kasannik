@@ -24,8 +24,8 @@
             <a href="/semester"><i class="fa-regular fa-calendar"></i> Semestr</a>
             <a href="/deadlines"><i class="fa-solid fa-clipboard-list"></i> Terminy</a>
             <a href="/schedule"><i class="fa-regular fa-calendar-days"></i> Plan Zajęć</a>
-            <a href="/subject"><i class="fa-solid fa-book"></i> Przedmioty</a>
-            <a href="#"><i class="fa-regular fa-square-check"></i> Do zrobienia</a>
+            <a href="/semester/active"><i class="fa-solid fa-book"></i> Przedmioty</a>
+            <a href="/todo"><i class="fa-regular fa-square-check"></i> Do zrobienia</a>
         </nav>
 
         <div class="sidebar-footer-deco">

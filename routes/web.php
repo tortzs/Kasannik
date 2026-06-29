@@ -33,6 +33,7 @@ $router->get('/semester', 'SemesterController@semester');
 $router->get('/semester/edit/{semester}', 'SemesterController@semesterEdit');
 $router->get('/semester/add', 'SemesterController@semesterAdd');
 $router->get('/semester/view/{semester}', 'SemesterController@semesterView');;
+$router->get('/semester/active', 'SemesterController@semesterActive');
 // post
 $router->post('/semester/delete', 'SemesterController@semesterDelete');
 $router->post('/semester/insert', 'SemesterController@semesterInsert');
