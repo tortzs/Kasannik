@@ -34,7 +34,7 @@
             
             <div class="input-group">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" name="password_confirm" placeholder="Powtórz hasło" required>
+                <input type="password" name="password_repeat" placeholder="Powtórz hasło" required>
                 <i class="fa-solid fa-eye-slash toggle-password"></i>
             </div>
 

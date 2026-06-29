@@ -19,8 +19,14 @@
                 <span class="semester-badge"><?php echo htmlspecialchars($_SESSION['active_semester_name'] ?? 'Brak aktywnego semestru'); ?></span>
             </a>
             <a href="/user/logout" class="logout-btn">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Wyloguj się
+                <i class="fa-solid fa-arrow-right-from-bracket logout-link"></i> Wyloguj się
             </a>
+            <script>
+                document.querySelector('.logout-link').addEventListener('click', function(e) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                });
+            </script>
         </div>
 
         <nav class="sidebar-nav">

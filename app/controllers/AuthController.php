@@ -6,6 +6,10 @@ class AuthController extends Controller
     {
         header('Content-Type: application/json');
 
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode([
                 'success' => false,
@@ -14,14 +18,10 @@ class AuthController extends Controller
             return;
         }
 
-        if (
-            !isset($_POST['csrf_token']) ||
-            !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
-        ) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Nieprawidłowy token CSRF'
-            ]);
+        if (!isset($_SESSION['csrf_token']) || !isset($_POST['csrf_token']) ||
+            !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+
+            echo json_encode(['success' => false, 'message' => 'Nieprawidłowy token CSRF']);
             return;
         }
 
@@ -43,6 +43,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Zalogowano poprawnie'
             ]);
+
             return;
         }
 

@@ -12,6 +12,9 @@ if (php_sapi_name() === 'cli-server') {
 }
 
 session_start();
+if(empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $currentPath = rtrim($currentPath, '/');
 
@@ -72,7 +75,3 @@ require_once ROOT_PATH . '/routes/web.php';
 
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
-if(empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-
-}

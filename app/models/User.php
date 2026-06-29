@@ -20,10 +20,14 @@ class User extends Model
         if (!$user || !password_verify($password, $user['PasswordHash'])) {
             return false;
         }
-
+        session_regenerate_id(true);
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['userID'] = $user['ID'];
         $_SESSION['username'] = $user['Username'];
+        $_SESSION['avatar'] = $user['Avatar'];
+
+
 
         $stmtSem = $this->pdo->prepare("SELECT Name FROM Semesters WHERE UserID = :userId AND IsCurrent = 1 LIMIT 1");
         $stmtSem->execute(['userId' => $user['ID']]);
@@ -49,9 +53,24 @@ class User extends Model
         return $stmt->execute();
     }
     public function logout(){
-        unset($_SESSION['isLoggedIn']);
-        unset($_SESSION['userID']);
-        return true;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        session_destroy();
+
+        header('Location: /login');
+        exit;
     }
 
     public function updateProfile(int $userId, string $username, string $email, ?string $password = null, string $themePreference = 'Light', ?string $avatarFilename = null): bool
