@@ -25,7 +25,7 @@ class SemesterController extends Controller
             header('Location: /semester');
             exit;
         }
-        $subjects = new subjects();
+        $subjects = new Subjects();
         $subjectsList = $subjects->getSubjectsBySemester(intval($semesterId));
         $data = [
             'semester' => $currentSemester,
