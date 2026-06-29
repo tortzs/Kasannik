@@ -167,6 +167,7 @@ class SemesterController extends Controller
         $name = trim($_POST['name'] ?? '');
         $startDate = trim($_POST['start_date'] ?? '');
         $endDate = trim($_POST['end_date'] ?? '');
+        $isCurrent = isset($_POST['is_current']) ? 1 : 0;
 
         if ($name === '' || $startDate === '' || $endDate === '') {
             echo json_encode([
@@ -183,12 +184,13 @@ class SemesterController extends Controller
             $name,
             $startDate,
             $endDate,
+            $isCurrent
         );
 
         if ($updated) {
             echo json_encode([
                 'success' => true,
-                'message' => 'Prowadzący został dodany poprawnie',
+                'message' => 'Semestr został dodany poprawnie',
                 'action' => $_POST['action'] ?? 'save'
             ]);
             return;

@@ -92,24 +92,33 @@ class Semesters extends Model
         string $semesterId,
         string $name,
         string $startDate,
-        string $endDate
+        string $endDate,
+        int $isCurrent // 1
     ): bool {
+        $userId = Auth::id();
+        if ($isCurrent === 1) {
+            $stmtReset = $this->pdo->prepare("UPDATE Semesters SET IsCurrent = 0 WHERE UserID = :userId");
+            $stmtReset->bindValue(':userId', $userId, PDO::PARAM_INT);
+            $stmtReset->execute();
+        }
         $stmt = $this->pdo->prepare("
         UPDATE Semesters
         SET
             Name = :name,
             StartDate = :startDate,
-            EndDate = :endDate
+            EndDate = :endDate,
+            IsCurrent = :isCurrent
         WHERE ID = :semesterId
         AND UserID = :userId
     ");
 
 
-        $stmt->bindValue(':userId', Auth::id(), PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
         $stmt->bindValue(':semesterId', $semesterId, PDO::PARAM_STR);
         $stmt->bindValue(':name', $name, PDO::PARAM_STR);
         $stmt->bindValue(':startDate', $startDate, PDO::PARAM_STR);
         $stmt->bindValue(':endDate', $endDate, PDO::PARAM_STR);
+        $stmt->bindValue(':isCurrent', $isCurrent, PDO::PARAM_INT);
         return $stmt->execute();
     }
     public function getActiveSemesterId(int $userId): ?int

@@ -37,6 +37,14 @@
                     <label>Data zakończenia</label>
                     <input class="form-control" type="date" name="end_date" value="<?php echo htmlspecialchars($semester['EndDate'] ?? ''); ?>" required>
                 </div>
+                <div class="form-group" style="margin-top: 15px; margin-bottom: 15px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="is_current" value="1"
+                                <?php echo (($semester['IsCurrent'] ?? 0) == 1) ? 'checked' : ''; ?>
+                               style="transform: scale(1.2);">
+                        <span style="font-weight: bold;">Ustaw ten semestr jako aktywny</span>
+                    </label>
+                </div>
             </div>
 
             <div class="form-actions" style="margin-top: 30px; padding: 0;">
