@@ -78,3 +78,7 @@ $router->post('/assignment/update-details', 'AssignmentController@assignmentUpda
 //get
 $router->get('/todo', 'TodoController@todoIndex');
 //post
+$router->post('/todo/add', 'TodoController@todoAdd');
+$router->post('/todo/toggle', 'TodoController@todoToggle');
+$router->post('/todo/delete', 'TodoController@todoDelete');
+$router->post('/todo/edit', 'TodoController@todoEdit');

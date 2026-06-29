@@ -52,4 +52,19 @@ class Todo extends Model
             'userId' => $userId
         ]);
     }
+    public function editTask(int $taskId, int $userId, string $taskDesc, ?string $targetDate): bool
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE DailyToDo 
+            SET TaskDesc = :taskDesc, 
+                TargetDate = :targetDate 
+            WHERE ID = :taskId AND UserID = :userId
+        ");
+        return $stmt->execute([
+            'taskDesc'   => $taskDesc,
+            'targetDate' => $targetDate,
+            'taskId'     => $taskId,
+            'userId'     => $userId
+        ]);
+    }
 }
