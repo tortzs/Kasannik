@@ -67,4 +67,18 @@ class Todo extends Model
             'userId'     => $userId
         ]);
     }
+    public function getUpcomingTodos(int $userId, int $limit): array
+    {
+        $stmt = $this->pdo->prepare("
+        SELECT * FROM DailyToDo 
+        WHERE UserID = :userId 
+        AND IsCompleted = 0 
+        ORDER BY TargetDate ASC 
+        LIMIT :limit
+    ");
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

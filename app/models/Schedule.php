@@ -72,8 +72,6 @@ class Schedule extends Model
 
     public function getActiveSemesterDeadlines(int $userId): array
     {
-        // Zakładam, że w tabeli Assignments masz kolumnę 'Type', którą aliasujemy na 'TypeName'.
-        // Jeśli masz osobną tabelę ze słownikami typów, dodaj po prostu kolejnego JOIN-a.
         $stmt = $this->pdo->prepare("
             SELECT 
                 a.Title, 
@@ -91,6 +89,36 @@ class Schedule extends Model
         ");
 
         $stmt->execute(['userId' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getClassesForDate(int $userId, string $date): array
+    {
+        $dayOfWeek = (int)date('N', strtotime($date));
+
+        $isWeekOdd = (int)(date('W', strtotime($date)) % 2 !== 0);
+
+        $stmt = $this->pdo->prepare("
+            SELECT te.*, s.Name AS SubjectName
+            FROM TimetableEvents te
+            JOIN Subjects s ON te.SubjectID = s.ID
+            JOIN Semesters sem ON s.SemesterID = sem.ID
+            WHERE sem.UserID = :userId 
+              AND sem.IsCurrent = 1
+              AND te.DayOfWeek = :dayOfWeek
+              AND (
+                  te.WeekType = 'every'
+                  OR (te.WeekType = 'odd' AND :isWeekOdd = 1)
+                  OR (te.WeekType = 'even' AND :isWeekOdd = 0)
+              )
+            ORDER BY te.StartTime ASC
+        ");
+
+        $stmt->execute([
+            'userId'    => $userId,
+            'dayOfWeek' => $dayOfWeek,
+            'isWeekOdd' => $isWeekOdd
+        ]);
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

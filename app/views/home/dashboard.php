@@ -1,3 +1,9 @@
+<?php
+/** @var array $upcomingAssignments
+ * @var array $upcomingTodos
+ * @var array $classesTomorrow
+ */
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -15,22 +21,45 @@
                     <h2><i class="fa-regular fa-calendar-check"></i> Najbliższe egzaminy / rzeczy do oddania</h2>
                 </div>
                 <div class="card-list">
-                    <?php 
-                    // foreach ($exams as $exam): 
+                    <?php
+                    foreach ($upcomingAssignments as $assignment):
                     ?>
                     <div class="list-item">
                         <div class="item-icon pink"><i class="fa-regular fa-calendar"></i></div>
                         <div class="item-details">
-                            <div class="item-title pink-text">Matematyka Dyskretna</div>
-                            <div class="item-desc">Kolos – Oblać</div>
+                            <div class="item-title pink-text"><?= htmlspecialchars($assignment['Title']) ?></div>
+                            <div class="item-desc">
+                                <?= htmlspecialchars($assignment['TypeName'] ?? '') ?>
+                                <?= !empty($assignment['Notes']) ? htmlspecialchars(" - ".$assignment['Notes']) : '' ?>
+                            </div>
                         </div>
+                        <?php
+                        $deadlineTimestamp = strtotime($assignment['Deadline']);
+
+                        $daysText = '';
+
+                        if ($deadlineTimestamp && !$assignment['IsCompleted']) {
+
+                            $diff = ceil(($deadlineTimestamp - time()) / 86400);
+
+                            if ($diff < 0) {
+                                $daysText = "Po terminie";
+                            } elseif ($diff == 0) {
+                                $daysText = "Dzisiaj!";
+                            } elseif ($diff == 1) {
+                                $daysText = "Jutro";
+                            } else {
+                                $daysText = "Za ".$diff." dni";
+                            }
+                        }
+                        ?>
                         <div class="item-meta">
-                            <div class="item-date">23.05.2024<br>(czw.)</div>
-                            <div class="item-badge pink-bg">Za 2 dni</div>
+                            <div class="item-date"><?= date('d.m.Y', strtotime($assignment['Deadline'])) ?></div>
+                            <div class="item-badge pink-bg"><?= htmlspecialchars($daysText) ?></div>
                         </div>
                     </div>
-                    <?php 
-                    // endforeach; 
+                    <?php
+                    endforeach;
                     ?>
                 </div>
             </div>
@@ -41,25 +70,16 @@
                     <a href="#" class="add-btn"><i class="fa-solid fa-plus"></i></a>
                 </div>
                 <div class="card-list">
-                    <?php 
-                    // foreach ($todos as $todo): 
+                    <?php
+                    foreach ($upcomingTodos as $todo):
                     ?>
                     <label class="todo-item">
                         <input type="checkbox">
-                        <span class="todo-text">Spotkanie kierunkowe</span>
-                        <span class="priority-badge high">Wysoki <i class="fa-regular fa-star"></i></span>
-                    </label>
-                    <label class="todo-item">
-                        <input type="checkbox">
-                        <span class="todo-text">Sprzedać Szymona</span>
-                        <span class="priority-badge medium">Średni <div class="dot green"></div></span>
-                    </label>
-                    <label class="todo-item done">
-                        <input type="checkbox" checked>
-                        <span class="todo-text">Pozbawić Torta włosów</span>
+                        <span class="todo-text"><?= htmlspecialchars($todo['TaskDesc']) ?></span>
+                        <span class="priority-badge high"><?= htmlspecialchars($todo['TargetDate']) ?>
                     </label>
                     <?php 
-                    // endforeach; 
+                    endforeach;
                     ?>
                 </div>
             </div>

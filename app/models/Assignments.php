@@ -82,4 +82,23 @@ class Assignments extends Model
             'userId'      => $this->userId
         ]);
     }
+    public function getUpcomingAssignments(int $userId, int $limit): array
+    {
+        $stmt = $this->pdo->prepare("
+        SELECT * FROM Assignments a
+        JOIN Subjects sub ON a.SubjectID = sub.ID
+        JOIN Semesters sem ON sub.SemesterID = sem.ID
+        JOIN AssignmentTypes att ON a.TypeID = att.TypeID
+        WHERE sem.UserID = :userId 
+        AND IsCompleted = 0 
+        AND Deadline >= NOW()
+        ORDER BY Deadline ASC 
+        LIMIT :limit
+    ");
+
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
