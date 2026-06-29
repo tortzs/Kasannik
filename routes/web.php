@@ -45,11 +45,12 @@ $router->post('/semester/update', 'SemesterController@semesterUpdate');
 
 $router->get('/register', 'AuthController@userRegister');
 $router->get('/login', 'AuthController@userLogin');
-$router->get('/user', 'AuthController@user');
+$router->get('/user', 'AuthController@userIndex');
 $router->get('/user/logout', 'AuthController@logout');
 // post
 $router->post('/auth/register', 'AuthController@register');
 $router->post('/auth/login', 'AuthController@login');
+$router->post('/user/update', 'AuthController@userUpdate');
 
 /*
  * Subject
