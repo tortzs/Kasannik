@@ -1,7 +1,8 @@
 <?php
 /** @var array $upcomingAssignments
  * @var array $upcomingTodos
- * @var array $classesTomorrow
+ * @var array $todayClasses
+ * @var array $tomorrowClasses
  */
 ?>
 <!DOCTYPE html>
@@ -86,89 +87,72 @@
 
             <div class="card schedule-card full-width">
                 <div class="card-header">
-                    <h2><i class="fa-regular fa-calendar-days"></i> Plan zajęć</h2>
-                    <div class="schedule-nav">
-                        <button><i class="fa-solid fa-chevron-left"></i></button>
-                        <span>19 – 24 maja 2024</span>
-                        <button><i class="fa-solid fa-chevron-right"></i></button>
-                        <button class="btn-today">Dzisiaj</button>
-                    </div>
+                    <h2>
+                        <i class="fa-regular fa-calendar-days"></i>
+                        Plan zajęć
+                    </h2>
+                    <a href="/schedule" class="add-btn">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
-                <div class="schedule-table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Pon.<br><span>19.05</span></th>
-                                <th>Wt.<br><span>20.05</span></th>
-                                <th>Śr.<br><span>21.05</span></th>
-                                <th>Czw.<br><span>22.05</span></th>
-                                <th>Pt.<br><span>23.05</span></th>
-                                <th>Sob.<br><span>24.05</span></th>
-                                <th>Nd.<br><span>25.05</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            // foreach ($schedule as $row): 
-                            ?>
-                            <tr>
-                                <td class="time-col"><span>8:30 – 10:00</span></td>
-                                <td class="subject-pink"></i>Matematyka Dyskretna</td>
-                                <td class="subject-teal"></i>ZSI</td>
-                                <td class=""></i></td>
-                                <td class="subject-purple"></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                            </tr>
-                            <tr>
-                                <td class="time-col"><span>10:15 – 11:45</span></td>
-                                <td class=""></i>Matematyka Dyskretna</td>
-                                <td class=""></i>Matematyka Dyskretna</td>
-                                <td class=""></i>Matematyka Dyskretna</td>
-                                <td class=""></i>Matematyka Dyskretna</td>
-                                <td class=""></i>Matematyka Dyskretna</td>
-                                <td class=""></i>Matematyka </td>
-                                <td class=""></i>Matematyka </td>
-                            </tr>
-                            <tr>
-                                <td class="time-col"><span>12:00 – 13:30</span></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
+                <div class="card-list">
+                    <h3>Dzisiaj</h3>
+                    <?php foreach($todayClasses as $lesson): ?>
 
-                            </tr>
-                            <tr>
-                                <td class="time-col"><span>13:45 – 15:15</span></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                            </tr>
-                            <tr>
-                                <td class="time-col"><span>15:30 – 17:00</span></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                                <td class=""></i></td>
-                            </tr>
-                            <?php 
-                            // endforeach; 
-                            ?>
-                        </tbody>
-                    </table>
+                        <div class="list-item">
+                            <div class="item-icon <?= $lesson['Classtype'] ?>">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="item-details">
+                                <div class="item-title">
+                                    <?= htmlspecialchars($lesson['SubjectName']) ?>
+                                </div>
+                                <div class="item-desc">
+                                    <?= substr($lesson['StartTime'],0,5) ?>
+                                    -
+                                    <?= substr($lesson['EndTime'],0,5) ?>
+                                    <br>
+                                    Sala:
+                                    <?= htmlspecialchars($lesson['Room']) ?>
+                                </div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-badge <?= $lesson['Classtype'] ?>-bg">
+                                    <?= htmlspecialchars($lesson['Classtype']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    <h3 style="margin-top:20px;">Jutro</h3>
+                    <?php foreach($tomorrowClasses as $lesson): ?>
+                        <div class="list-item">
+                            <div class="item-icon <?= $lesson['Classtype'] ?>">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="item-details">
+                                <div class="item-title">
+                                    <?= htmlspecialchars($lesson['SubjectName']) ?>
+                                </div>
+                                <div class="item-desc">
+                                    <?= substr($lesson['StartTime'],0,5) ?>
+                                    -
+                                    <?= substr($lesson['EndTime'],0,5) ?>
+                                    <br>
+                                    Sala:
+                                    <?= htmlspecialchars($lesson['Room']) ?>
+                                </div>
+                            </div>
+                            <div class="item-meta">
+                                <div class="item-badge <?= $lesson['Classtype'] ?>-bg">
+                                    <?= htmlspecialchars($lesson['Classtype']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+
                 </div>
+
             </div>
         </div>
     </main>

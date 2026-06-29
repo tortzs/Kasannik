@@ -19,7 +19,10 @@
     --color-purple: #9b51e0;
     --color-purple-light: #f2e9fc;
     --color-green: #27ae60;
+    --color-green-light: #a7ce90;
     --color-orange: #f2994a;
+    --color-aqua-light: #D1F1EE;
+    --color-aqua: #34B3A4;
 }
 
 * {
@@ -487,6 +490,20 @@ body:has(.login-wrapper) .main-content {
 .item-icon.pink { background-color: var(--color-pink-light); color: var(--color-pink); }
 .pink-text { color: var(--color-pink); }
 .pink-bg { color: var(--color-pink); background-color: var(--color-pink-light); }
+.item-icon.green { background-color: var(--color-green-light); color: var(--color-green); }
+.green-text { color: var(--color-green); }
+.green-bg { color: var(--color-green); background-color: var(--color-green-light); }
+
+
+.item-icon.LAB { background-color: var(--color-purple-light); color: var(--color-purple); }
+.LAB-text { color: var(--color-purple); }
+.LAB-bg { color: var(--color-purple); background-color: var(--color-purple-light); }
+.item-icon.CW { background-color: var(--color-aqua-light); color: var(--color-aqua); }
+.CW-text { color: var(--color-aqua); }
+.CW-bg { color: var(--color-aqua); background-color: var(--color-aqua-light); }
+.item-icon.WYK { background-color: var(--color-pink-light); color: var(--color-pink); }
+.WYK-text { color: var(--color-pink); }
+.WYK-bg { color: var(--color-pink); background-color: var(--color-pink-light); }
 
 .list-item {
     display: flex;

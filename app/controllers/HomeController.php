@@ -16,15 +16,17 @@ class HomeController extends Controller
         $assignmentModel = new Assignments();
         $todoModel = new Todo();
         $scheduleModel = new Schedule();
+        $today = date('Y-m-d');
         $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
         $this->view("home/dashboard", [
             'upcomingAssignments' => $assignmentModel->getUpcomingAssignments($userId, 3),
             'upcomingTodos'       => $todoModel->getUpcomingTodos($userId, 3),
-            'classesTomorrow'     => $scheduleModel->getClassesForDate(
-                $userId,
-                $tomorrow
-            )
+            'todayClasses' =>
+                $scheduleModel->getClassesForDate($userId, $today),
+
+            'tomorrowClasses' =>
+                $scheduleModel->getClassesForDate($userId, $tomorrow)
         ]);
     }
 }
