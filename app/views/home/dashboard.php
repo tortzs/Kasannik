@@ -26,9 +26,21 @@
                     foreach ($upcomingAssignments as $assignment):
                     ?>
                     <div class="list-item">
-                        <div class="item-icon pink"><i class="fa-regular fa-calendar"></i></div>
+                        <?php
+                        $typeClass = match($assignment['TypeName']) {
+                            'Kolokwium' => 'KOLOS',
+                            'Projekt Grupowy' => 'PROJ',
+                            'Egzamin Pisemny' => 'EGZ',
+                            'Zadanie Domowe' => 'ZAD',
+                            'Sprawozdanie Laboratoryjne' => 'ZAD',
+                            'Projekt Indywidualny' => 'PROJ',
+                            default => 'DEF'
+                        };
+                        ?>
+
+                        <div class="item-icon <?= $typeClass ?>"><i class="fa-regular fa-calendar"></i></div>
                         <div class="item-details">
-                            <div class="item-title pink-text"><?= htmlspecialchars($assignment['Title']) ?></div>
+                            <div class="item-title <?= $typeClass ?>-text"><?= htmlspecialchars($assignment['Title']) ?></div>
                             <div class="item-desc">
                                 <?= htmlspecialchars($assignment['TypeName'] ?? '') ?>
                                 <?= !empty($assignment['Notes']) ? htmlspecialchars(" - ".$assignment['Notes']) : '' ?>
@@ -56,7 +68,7 @@
                         ?>
                         <div class="item-meta">
                             <div class="item-date"><?= date('d.m.Y', strtotime($assignment['Deadline'])) ?></div>
-                            <div class="item-badge pink-bg"><?= htmlspecialchars($daysText) ?></div>
+                            <div class="item-badge <?= $typeClass ?>-bg"><?= htmlspecialchars($daysText) ?></div>
                         </div>
                     </div>
                     <?php
@@ -77,7 +89,7 @@
                     <label class="todo-item">
                         <input type="checkbox" onclick="window.location.href='/todo'; return false;">
                         <span class="todo-text"><?= htmlspecialchars($todo['TaskDesc']) ?></span>
-                        <span class="priority-badge high"><?= htmlspecialchars($todo['TargetDate']) ?>
+                        <span class="priority-badge medium"><?= htmlspecialchars($todo['TargetDate']) ?>
                     </label>
                     <?php 
                     endforeach;
