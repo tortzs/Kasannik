@@ -71,3 +71,10 @@ $router->post('/assignment/insert', 'AssignmentController@assignmentInsert');
 $router->post('/assignment/delete', 'AssignmentController@assignmentDelete');
 $router->post('/assignment/update', 'AssignmentController@assignmentUpdate');
 $router->post('/assignment/update-details', 'AssignmentController@assignmentUpdateDetails');
+
+/*
+ * To Do
+ */
+//get
+$router->get('/todo', 'TodoController@todoIndex');
+//post
