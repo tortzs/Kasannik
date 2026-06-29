@@ -72,15 +72,17 @@ if (!empty($events)) {
                             $duration = (($endParts[0] * 60) + $endParts[1]) - (($startParts[0] * 60) + $startParts[1]);
 
                             $isLecture = stripos($event['ClassType'], 'wyk') !== false;
-                            
+
+
+
                             $bgColor = $isLecture ? 'var(--color-purple-light)' : 'var(--sidebar-bg)';
                             $borderColor = $isLecture ? 'var(--color-purple)' : 'var(--primary)';
                             $textColor = $isLecture ? 'var(--color-purple)' : 'var(--primary-dark)';
                             ?>
 
-                            <div style="position: absolute; top: <?= $topPx ?>px; height: <?= $duration ?>px; left: 4%; width: 92%; background: <?= $bgColor ?>; border-left: 4px solid <?= $borderColor ?>; border-radius: 8px; box-sizing: border-box; padding: 8px 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.08)'; this.style.zIndex='10';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.04)'; this.style.zIndex='5';" style="z-index: 5;">
+                            <div style="position: absolute; top: <?= $topPx ?>px; height: <?= $duration ?>px; left: 4%; width: 92%; background: var(--color-<?=$event['ClassType']?>-light); border-left: 4px solid var(--color-<?=$event['ClassType']?>); border-radius: 8px; box-sizing: border-box; padding: 8px 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(0,0,0,0.08)'; this.style.zIndex='10';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.04)'; this.style.zIndex='5';" style="z-index: 5;">
                                 
-                                <div style="color: <?= $textColor ?>; font-size: 0.7rem; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="color: var(--color-<?=$event['ClassType']?>); font-size: 0.7rem; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;">
                                     <span><i class="fa-regular fa-clock" style="margin-right: 3px;"></i><?= htmlspecialchars(date('H:i', strtotime($event['StartTime']))) ?></span>
                                     <span style="background: rgba(255,255,255,0.6); padding: 2px 6px; border-radius: 4px; font-size: 0.65rem;"><?= htmlspecialchars($event['ClassType']) ?></span>
                                 </div>

@@ -23,6 +23,15 @@
     --color-orange: #f2994a;
     --color-aqua-light: #D1F1EE;
     --color-aqua: #34B3A4;
+
+    --color-CW-light: #D1F1EE;
+    --color-CW: #34B3A4;
+    --color-LAB-light: #f2e9fc;
+    --color-LAB: #9b51e0;
+    --color-WYK-light: #fbe4eb;
+    --color-WYK: #f26f98;
+    --color-PROJ-light: #CFBEDB;
+    --color-PROJ: #674D7B;
 }
 
 * {
