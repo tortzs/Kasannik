@@ -520,9 +520,9 @@ body:has(.login-wrapper) .main-content {
 .item-icon.EGZ { background-color: #D2C39F; color: #826326; }
 .EGZ-text { color: #826326; }
 .EGZ-bg { color: #826326; background-color: #D2C39F; }
-.item-icon.PROJ { background-color: #AF9EBB; color: #674D7B; }
+.item-icon.PROJ { background-color: #CFBEDB; color: #674D7B; }
 .PROJ-text { color: #674D7B; }
-.PROJ-bg { color: #674D7B; background-color: #AF9EBB; }
+.PROJ-bg { color: #674D7B; background-color: #CFBEDB; }
 .item-icon.ZAD { background-color: #8DA8C3; color: #355F8B; }
 .ZAD-text { color: #355F8B; }
 .ZAD-bg { color: #355F8B; background-color: #8DA8C3; }

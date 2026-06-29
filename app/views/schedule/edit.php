@@ -135,7 +135,7 @@ $days = [1 => 'Poniedziałek', 2 => 'Wtorek', 3 => 'Środa', 4 => 'Czwartek', 5 
                             </td>
                             
                             <td>
-                                <span class="badge badge-purple" style="margin-right: 8px;">
+                                <span class="badge <?=$event['ClassType']?>-bg" style="margin-right: 8px;">
                                     <?= htmlspecialchars($event['ClassType']) ?>
                                 </span>
                                 <span class="text-gray fw-bold" style="font-size: 0.9rem;">
