@@ -30,18 +30,21 @@
                 $isCompleted = (bool)$item['IsCompleted'];
                 $deadlineTimestamp = strtotime($item['Deadline']);
                 $formattedDate = $deadlineTimestamp ? date('d.m.Y', $deadlineTimestamp) . '<br><span style="font-size: 0.8rem; color: var(--text-gray);">' . date('H:i', $deadlineTimestamp) . '</span>' : '-';
-                
+
                 $daysLeft = '';
                 if ($deadlineTimestamp && !$isCompleted) {
                     $diff = ceil(($deadlineTimestamp - time()) / 86400);
+
                     if ($diff < 0) {
                         $daysLeft = '<span class="badge badge-pink" style="margin-left: 10px;">Po terminie</span>';
                     } elseif ($diff == 0) {
-                        $daysLeft = '<span class="badge badge-purple" style="margin-left: 10px;">Dzisiaj!</span>';
+                        $daysLeft = '<span class="badge" style="background-color: #fd7e14; color: white; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">Dzisiaj!</span>';
                     } elseif ($diff == 1) {
-                        $daysLeft = '<span class="badge badge-purple" style="margin-left: 10px;">Jutro</span>';
+                        $daysLeft = '<span class="badge" style="background-color: #fd7e14; color: white; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">Jutro</span>';
+                    } elseif ($diff <= 7) {
+                        $daysLeft = '<span class="badge" style="background-color: #ffae42; color: white; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">Za ' . $diff . ' dni</span>';
                     } else {
-                        $daysLeft = '<span class="badge badge-teal" style="margin-left: 10px;">Za ' . $diff . ' dni</span>';
+                        $daysLeft = '<span class="badge" style="background-color: #6c757d; color: white; margin-left: 10px; padding: 4px 8px; border-radius: 4px;">Za ' . $diff . ' dni</span>';
                     }
                 }
             ?>

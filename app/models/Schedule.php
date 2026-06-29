@@ -69,4 +69,28 @@ class Schedule extends Model
         ");
         return $stmt->execute(['eventId' => $eventId, 'userId' => $userId]);
     }
+
+    public function getActiveSemesterDeadlines(int $userId): array
+    {
+        // Zakładam, że w tabeli Assignments masz kolumnę 'Type', którą aliasujemy na 'TypeName'.
+        // Jeśli masz osobną tabelę ze słownikami typów, dodaj po prostu kolejnego JOIN-a.
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                a.Title, 
+                a.Deadline, 
+                a.IsCompleted, 
+                a.SubjectID, 
+                t.TypeName AS TypeName, 
+                s.Name AS SubjectName
+            FROM Assignments a
+            JOIN Subjects s ON a.SubjectID = s.ID
+            JOIN Semesters sem ON s.SemesterID = sem.ID
+            JOIN AssignmentTypes t ON a.TypeID = t.TypeID
+            WHERE sem.UserID = :userId AND sem.IsCurrent = 1
+            ORDER BY a.Deadline ASC
+        ");
+
+        $stmt->execute(['userId' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

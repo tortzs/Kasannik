@@ -24,8 +24,12 @@
             <div class="form-grid">
                 <div class="form-group" style="grid-column: 1 / -1;">
                     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 10px;">
-                        <div class="avatar-placeholder" style="width: 80px; height: 80px; font-size: 2rem; background-color: var(--sidebar-bg); color: var(--primary); border-radius: 50%;">
-                            <i class="fa-solid fa-user"></i>
+                        <div class="avatar" style="width: 80px; height: 80px; font-size: 2rem; background-color: var(--sidebar-bg); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;"">
+                            <?php if (!empty($_SESSION['avatar'])): ?>
+                                <img src="/uploads/avatars/<?= htmlspecialchars($_SESSION['avatar']) ?>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                            <?php else: ?>
+                                <i class="fa-solid fa-user"></i>
+                            <?php endif; ?>
                         </div>
                         <div>
                             <h3 style="margin: 0; color: var(--text-dark); font-size: 1.4rem;">

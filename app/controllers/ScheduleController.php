@@ -25,7 +25,19 @@ class ScheduleController extends Controller
     }
 
     public function scheduleDeadlines(){
-        $this->view("schedule/deadlines");
+        if (!Auth::check()) {
+            header('Location: /login');
+            exit;
+        }
+
+        $userId = (int)$_SESSION['userID'];
+
+        $scheduleModel = new Schedule();
+        $assignments = $scheduleModel->getActiveSemesterDeadlines($userId);
+
+        $this->view("schedule/deadlines", [
+            'assignments' => $assignments
+        ]);
     }
 
     public function scheduleEdit()
@@ -85,5 +97,5 @@ class ScheduleController extends Controller
         header('Location: /schedule/edit');
         exit;
     }
-    
+
 }
