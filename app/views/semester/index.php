@@ -24,6 +24,7 @@
                 <th>Nazwa</th>
                 <th>Rozpoczęcie</th>
                 <th>Koniec</th>
+                <th>Status</th>
                 <th>Akcje</th>
             </tr>
             </thead>
@@ -33,6 +34,13 @@
                     <td class="fw-bold text-dark"><?php echo htmlspecialchars($semester['Name']); ?></td>
                     <td><?php echo htmlspecialchars($semester['StartDate']); ?></td>
                     <td><?php echo htmlspecialchars($semester['EndDate']); ?></td>
+                    <td>
+                        <?php if (($semester['IsCurrent'] ?? 0) == 1) { ?>
+                            <span style="background-color: #28a745; color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.85em; font-weight: bold;">Aktywny</span>
+                        <?php } else { ?>
+                            <span style="color: var(--text-gray, #666); font-size: 0.9em;">-</span>
+                        <?php } ?>
+                    </td>
                     <td>
                         <div class="action-buttons">
                             <a href="/semester/view/<?php echo $semester['ID']?>" class="btn-icon" style="color: var(--primary); border: 1px solid #b6e3de;"><i class="fa-solid fa-eye"></i></a>
