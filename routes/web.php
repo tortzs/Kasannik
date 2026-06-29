@@ -10,10 +10,13 @@ $router->get('/dashboard', 'HomeController@dashboard');
 /*
  * Schedule
  */
-
+//get
 $router->get('/schedule', 'ScheduleController@scheduleIndex');
 $router->get('/schedule/edit', 'ScheduleController@scheduleEdit');
 $router->get('/schedule/deadlines', 'ScheduleController@scheduleDeadlines');
+//post
+$router->post('/schedule/add-event', 'ScheduleController@addEvent');
+$router->post('/schedule/delete-event', 'ScheduleController@deleteEvent');
 
 /*
  * Instructor

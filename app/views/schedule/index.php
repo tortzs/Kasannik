@@ -28,6 +28,7 @@ foreach ($events as $event) {
         <?php else: ?>
             <p style="color: red;">Brak aktywnego semestru!</p>
         <?php endif; ?>
+        <a href="/schedule/edit" class="btn-primary" style="background: #6c757d; text-decoration: none; padding: 10px 15px; color: white; border-radius: 4px;">Edytuj plan</a>
     </div>
 
     <div class="timetable-wrapper" style="display: flex; background: #fff; border: 1px solid #ccc; font-family: sans-serif; min-width: 800px;">
