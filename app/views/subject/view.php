@@ -75,7 +75,18 @@
                             <?php echo htmlspecialchars($assignment['Title']); ?>
                         </span>
                     </td>
-                    <td><span class="badge badge-purple"><?php echo htmlspecialchars($assignment['TypeName']); ?></span></td>
+                    <?php
+                    $typeClass = match($assignment['TypeName']) {
+                        'Kolokwium' => 'KOLOS',
+                        'Projekt Grupowy' => 'PROJ',
+                        'Egzamin Pisemny' => 'EGZ',
+                        'Zadanie Domowe' => 'ZAD',
+                        'Sprawozdanie Laboratoryjne' => 'ZAD',
+                        'Projekt Indywidualny' => 'PROJ',
+                        default => 'DEF'
+                    };
+                    ?>
+                    <td><span class="badge <?= $typeClass ?>-bg"><?php echo htmlspecialchars($assignment['TypeName']); ?></span></td>
                     <td class="fw-bold"><?php echo htmlspecialchars($assignment['MaxPoints']); ?></td>
                     <td class="text-gray fw-bold"><?php echo $assignment['EarnedPoints'] !== null ? htmlspecialchars($assignment['EarnedPoints']) : '-'; ?></td>
                     <td>

@@ -505,9 +505,9 @@ body:has(.login-wrapper) .main-content {
 .WYK-text { color: var(--color-pink); }
 .WYK-bg { color: var(--color-pink); background-color: var(--color-pink-light); }
 
-.item-icon.KOLOS { background-color: #B8827D; color: #924943; }
+.item-icon.KOLOS { background-color: #C8928D; color: #924943; }
 .KOLOS-text { color: #924943; }
-.KOLOS-bg { color: #924943; background-color: #B8827D; }
+.KOLOS-bg { color: #924943; background-color: #C8928D; }
 .item-icon.EGZ { background-color: #D2C39F; color: #826326; }
 .EGZ-text { color: #826326; }
 .EGZ-bg { color: #826326; background-color: #D2C39F; }
