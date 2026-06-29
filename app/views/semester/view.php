@@ -144,7 +144,7 @@
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Całkowita liczba punktów:</label>
-                        <input class="form-control" type="number" step="0.5" name="max_points" id="modal_max_points" value="">
+                        <input class="form-control" type="number" min="0" max="1000" step="0.5" name="max_points" id="modal_max_points" value="">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 20px;">

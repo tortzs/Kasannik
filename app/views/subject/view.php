@@ -132,10 +132,10 @@
                 </select>
             </td>
             <td style="padding: 12px 15px;">
-                <input class="form-control" form="add-assignment-form" type="number" step="0.5" name="assignment_points" placeholder="Max pkt" required style="padding: 8px 12px; width: 80px;">
+                <input class="form-control" form="add-assignment-form" type="number" min="0" step="0.5" name="assignment_points" placeholder="Max pkt" required style="padding: 8px 12px; width: 80px;">
             </td>
             <td style="padding: 12px 15px;">
-                <input class="form-control" form="add-assignment-form" type="number" step="0.5" name="assignment_earned_points" placeholder="Zdobyte" style="padding: 8px 12px; width: 80px;">
+                <input class="form-control" form="add-assignment-form" type="number" min="0" step="0.5" name="assignment_earned_points" placeholder="Zdobyte" style="padding: 8px 12px; width: 80px;">
             </td>
             <td style="padding: 12px 15px; vertical-align: middle;">
                 <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; gap: 5px;">
@@ -172,7 +172,7 @@
 
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Zdobyte punkty (opcjonalnie):</label>
-                        <input class="form-control" type="number" step="0.5" name="earned_points" id="modal_earned_points" value="">
+                        <input class="form-control" type="number" min="0" step="0.5" name="earned_points" id="modal_earned_points" value="">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 25px;">
