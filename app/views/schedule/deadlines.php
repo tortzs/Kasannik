@@ -51,7 +51,18 @@
                 <tr>
                     <td class="fw-bold text-dark"><?php echo htmlspecialchars($item['Title'] ?? ''); ?></td>
                     <td class="text-gray fw-bold"><?php echo htmlspecialchars($item['SubjectName'] ?? ''); ?></td>
-                    <td><span class="badge badge-purple"><?php echo htmlspecialchars($item['TypeName'] ?? ''); ?></span></td>
+                    <?php
+                    $typeClass = match($item['TypeName']) {
+                        'Kolokwium' => 'KOLOS',
+                        'Projekt Grupowy' => 'PROJ',
+                        'Egzamin Pisemny' => 'EGZ',
+                        'Zadanie Domowe' => 'ZAD',
+                        'Sprawozdanie Laboratoryjne' => 'ZAD',
+                        'Projekt Indywidualny' => 'PROJ',
+                        default => 'DEF'
+                    };
+                    ?>
+                    <td><span class="badge <?= $typeClass ?>-bg"><?php echo htmlspecialchars($item['TypeName'] ?? ''); ?></span></td>
                     <td class="fw-bold">
                         <div style="display: flex; align-items: center;">
                             <div><?php echo $formattedDate; ?></div>
