@@ -162,16 +162,27 @@ class AuthController extends Controller
         $username = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['new_password'] ?? '';
+        $themePreference = $_POST['theme_preference'] ?? 'Light';
 
-        if (empty($username) || empty($email)) {
+        /*if (empty($username) || empty($email)) {
             die('Nazwa użytkownika i adres e-mail nie mogą być puste.');
+        }*/
+        if (empty($username) || empty($email)) {
+            echo json_encode(['success' => false, 'message' => 'Nazwa użytkownika i adres e-mail nie mogą być puste.']);
+            exit;
         }
 
         $passwordParam = !empty($password) ? $password : null;
 
         $userModel = new User();
-        $success = $userModel->updateProfile($userId, $username, $email, $passwordParam);
-
+        $success = $userModel->updateProfile($userId, $username, $email, $passwordParam, $themePreference);
+        /*try {
+            $success = $userModel->updateProfile($userId, $username, $email, $passwordParam);
+        } catch (\Throwable $e) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Błąd krytyczny: ' . $e->getMessage()]);
+            exit;
+        }*/
         header('Content-Type: application/json');
         if ($success) {
             $_SESSION['user_username'] = $username;
