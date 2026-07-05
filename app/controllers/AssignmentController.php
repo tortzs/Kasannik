@@ -1,6 +1,6 @@
 <?php
 
-class AssignmentController
+class AssignmentController extends Controller
 {
     public function assignmentInsert()
     {
