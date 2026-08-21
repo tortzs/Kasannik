@@ -1,6 +1,12 @@
+# Disable directory listing
+Options -Indexes
+# Block hidden files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+# Routing
 RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 RewriteRule ^(.*)$ index.php [QSA,L]
