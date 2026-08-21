@@ -11,6 +11,12 @@ if (php_sapi_name() === 'cli-server') {
     }
 }
 
+//Cookies Security
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+// ini_set('session.cookie_secure', 1); //UNCOMMENT WHEN ON PRODUCTION WITH SSL
+ini_set('display_errors', 1); //CHANGE TO 0 WHEN ON PRODUCTION!
+
 session_start();
 if(empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
