@@ -56,6 +56,13 @@ class AuthController extends Controller
     public function register(): void
     {
         header('Content-Type: application/json');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Nieprawidłowa metoda'
+            ]);
+            return;
+        }
         if (
             !isset($_POST['csrf_token']) ||
             !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
@@ -77,6 +84,11 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Uzupełnij wszystkie pola'
             ]);
+            return;
+        }
+
+        if (strlen($password) < 8) {
+            echo json_encode(['success' => false, 'message' => 'Hasło musi mieć co najmniej 8 znaków']);
             return;
         }
 
