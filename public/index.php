@@ -15,7 +15,15 @@ if (php_sapi_name() === 'cli-server') {
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 // ini_set('session.cookie_secure', 1); //UNCOMMENT WHEN ON PRODUCTION WITH SSL
-ini_set('display_errors', 1); //CHANGE TO 0 WHEN ON PRODUCTION!
+
+//Check environment
+$env = $_ENV['APP_ENV'] ?? 'prod';
+
+if ($env === 'dev' || $env === 'development') {
+    ini_set('display_errors', 1);
+} else {
+    ini_set('display_errors', 0);
+}
 
 session_start();
 if(empty($_SESSION['csrf_token'])) {

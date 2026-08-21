@@ -97,6 +97,8 @@ class Schedule extends Model
 
         $isWeekOdd = (int)(date('W', strtotime($date)) % 2 !== 0);
 
+        $currentWeekType = $isWeekOdd ? 'odd' : 'even';
+
         $stmt = $this->pdo->prepare("
             SELECT te.*, s.Name AS SubjectName
             FROM TimetableEvents te
@@ -105,18 +107,14 @@ class Schedule extends Model
             WHERE sem.UserID = :userId 
               AND sem.IsCurrent = 1
               AND te.DayOfWeek = :dayOfWeek
-              AND (
-                  te.WeekType = 'every'
-                  OR (te.WeekType = 'odd' AND :isWeekOdd = 1)
-                  OR (te.WeekType = 'even' AND :isWeekOdd = 0)
-              )
+              AND te.WeekType IN ('every', :currentWeekType)
             ORDER BY te.StartTime ASC
         ");
 
         $stmt->execute([
             'userId'    => $userId,
             'dayOfWeek' => $dayOfWeek,
-            'isWeekOdd' => $isWeekOdd
+            'currentWeekType' => $currentWeekType
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
