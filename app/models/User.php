@@ -68,9 +68,6 @@ class User extends Model
         }
 
         session_destroy();
-
-        header('Location: /login');
-        exit;
     }
 
     public function updateProfile(int $userId, string $username, string $email, ?string $password = null, string $themePreference = 'Light', ?string $avatarFilename = null): bool
