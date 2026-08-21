@@ -135,4 +135,16 @@ class User extends Model
 
         return $user ?: null;
     }
+    public function verifyPassword(int $userId, string $passwordToVerify): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT PasswordHash FROM Users WHERE ID = :id");
+        $stmt->execute(['id' => $userId]);
+        $hash = $stmt->fetchColumn();
+
+        if (!$hash) {
+            return false;
+        }
+
+        return password_verify($passwordToVerify, $hash);
+    }
 }

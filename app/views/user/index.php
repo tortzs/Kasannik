@@ -78,6 +78,11 @@
 
             <div class="form-grid">
                 <div class="form-group">
+                    <label>Obecne hasło</label>
+                    <input class="form-control" type="password" name="old_password" placeholder="Wpisz obecne hasło">
+                </div>
+                <br><br>
+                <div class="form-group">
                     <label>Nowe hasło</label>
                     <input class="form-control" type="password" name="new_password" placeholder="Wpisz nowe hasło">
                 </div>

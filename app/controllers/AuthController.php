@@ -159,19 +159,29 @@ class AuthController extends Controller
             die('Błąd bezpieczeństwa (CSRF).');
         }
 
+        $userModel = new User();
         $userId = (int)$_SESSION['userID'];
         $username = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $password = $_POST['new_password'] ?? '';
+        $oldPassword = $_POST['old_password'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
         $themePreference = $_POST['theme_preference'] ?? 'Light';
         $avatarFilename = null;
 
-        /*if (empty($username) || empty($email)) {
-            die('Nazwa użytkownika i adres e-mail nie mogą być puste.');
-        }*/
         if (empty($username) || empty($email)) {
             echo json_encode(['success' => false, 'message' => 'Nazwa użytkownika i adres e-mail nie mogą być puste.']);
             exit;
+        }
+
+        if(!empty($newPassword)) {
+            if(empty($oldPassword)) {
+                echo json_encode(['success' => false, 'message' => 'Musisz podać obecne hasło, aby je zmienić.']);
+                exit;
+            }
+            if (!$userModel->verifyPassword($userId, $oldPassword)) {
+                echo json_encode(['success' => false, 'message' => 'Obecne hasło jest nieprawidłowe.']);
+                exit;
+            }
         }
 
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
@@ -202,10 +212,9 @@ class AuthController extends Controller
             }
         }
 
-        $passwordParam = !empty($password) ? $password : null;
+        $newPasswordParam = !empty($newPassword) ? $newPassword : null;
 
-        $userModel = new User();
-        $success = $userModel->updateProfile($userId, $username, $email, $passwordParam, $themePreference, $avatarFilename);
+        $success = $userModel->updateProfile($userId, $username, $email, $newPasswordParam, $themePreference, $avatarFilename);
         /*try {
             $success = $userModel->updateProfile($userId, $username, $email, $passwordParam);
         } catch (\Throwable $e) {
