@@ -43,10 +43,6 @@ class ScheduleController extends Controller
             header('Location: /login');
             exit;
         }
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
-            exit;
-        }
 
         $userId = (int)$_SESSION['userID'];
         $scheduleModel = new Schedule();
