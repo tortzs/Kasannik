@@ -106,9 +106,13 @@ class Subjects extends Semesters{
 
     public function subjectDelete(int $id, int $semesterId): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM Subjects WHERE SemesterID = :semesterId and ID = :ID");
-        $stmt->bindValue(':semesterId', $semesterId, PDO::PARAM_INT);
-        $stmt->bindValue(':ID', $id, PDO::PARAM_INT);
+        $stmt = $this->pdo->prepare("
+            DELETE sub FROM Subjects sub
+            JOIN Semesters sem ON sub.SemesterID = sem.ID
+            WHERE sub.ID = :id AND sem.UserID = :userId
+        ");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $this->userId, PDO::PARAM_INT);
         return $stmt->execute();
     }
 

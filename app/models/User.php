@@ -2,12 +2,13 @@
 
 class User extends Model
 {
-    public function getAll(): array
+    /*public function getAll(): array
     {
         $stmt = $this->pdo->query("SELECT * FROM Users");
 
         return $stmt->fetchAll();
-    }
+    }*/ #massive database leak xD
+    #to delete later when nothing breaks
 
     public function login(string $email, string $password): bool
     {
