@@ -28,6 +28,13 @@ class AssignmentController extends Controller
         }
 
         $assignmentModel = new Assignments();
+
+        $userId = $_SESSION['userID'];
+        if (!$assignmentModel->verifySubjectOwnership($subjectId, $userId)) {
+            echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego przedmiotu.']);
+            exit;
+        }
+
         $newId = $assignmentModel->insertAssignment($subjectId, $typeId, $title, $points, $deadline, $earnedPoints, $isCompleted);
 
         if ($newId) {
@@ -57,8 +64,14 @@ class AssignmentController extends Controller
         $assignmentId = (int)($_POST['assignmentId'] ?? 0);
         $subjectId = (int)($_POST['subjectId'] ?? 0);
 
+        $userId = $_SESSION['userID'];
+
         if ($assignmentId > 0) {
             $assignmentModel = new Assignments();
+            if (!$assignmentModel->verifyAssignmentOwnership($assignmentId, $userId)) {
+                echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego przedmiotu.']);
+                exit;
+            }
             $assignmentModel->deleteAssignment($assignmentId);
         }
 
@@ -82,6 +95,7 @@ class AssignmentController extends Controller
 
         $assignmentId = (int)($_POST['assignmentId'] ?? 0);
         $subjectId = (int)($_POST['subjectId'] ?? 0);
+        $userId = $_SESSION['userID'];
 
         $earnedPoints = $_POST['earned_points'] !== '' ? (float)$_POST['earned_points'] : null;
 
@@ -89,6 +103,10 @@ class AssignmentController extends Controller
 
         if ($assignmentId > 0) {
             $assignmentModel = new Assignments();
+            if (!$assignmentModel->verifyAssignmentOwnership($assignmentId, $userId)) {
+                echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego przedmiotu.']);
+                exit;
+            }
             $assignmentModel->updateProgress($assignmentId, $earnedPoints, $isCompleted);
         }
 
@@ -114,9 +132,14 @@ class AssignmentController extends Controller
         $subjectId = (int)($_POST['subjectId'] ?? 0);
         $teammembers = trim($_POST['teammembers'] ?? '');
         $notes = trim($_POST['notes'] ?? '');
+        $userId = $_SESSION['userID'];
 
         if ($assignmentId > 0) {
             $assignmentModel = new Assignments();
+            if (!$assignmentModel->verifyAssignmentOwnership($assignmentId, $userId)) {
+                echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego przedmiotu.']);
+                exit;
+            }
             $assignmentModel->updateAssignmentDetails($assignmentId, $teammembers, $notes);
         }
 

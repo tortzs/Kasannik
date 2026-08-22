@@ -101,4 +101,37 @@ class Assignments extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function verifySubjectOwnership(int $subjectId, int $userId): bool
+    {
+        $stmt = $this->pdo->prepare("
+        SELECT 1 
+        FROM Subjects s
+        JOIN Semesters sem ON s.SemesterID = sem.ID
+        WHERE s.ID = :subjectId AND sem.UserID = :userId
+    ");
+
+        $stmt->execute([
+            'subjectId' => $subjectId,
+            'userId'    => $userId
+        ]);
+
+        return (bool) $stmt->fetchColumn();
+    }
+
+    public function verifyAssignmentOwnership(int $assignmentId, int $userId): bool
+    {
+        $stmt = $this->pdo->prepare("
+        SELECT 1 
+        FROM Assignments a
+        JOIN Subjects s ON a.SubjectID = s.ID
+        JOIN Semesters sem ON s.SemesterID = sem.ID
+        WHERE a.ID = :assignmentId AND sem.UserID = :userId
+    ");
+        $stmt->execute([
+            'assignmentId' => $assignmentId,
+            'userId'    => $userId
+        ]);
+
+        return (bool) $stmt->fetchColumn();
+    }
 }
