@@ -38,10 +38,18 @@ class SubjectController extends Controller
             return;
         }
 
-
+        $semestersModel = new Semesters();
+        if (!$semestersModel->semesterCheck($semesterId)) {
+            echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego semestru.']);
+            return;
+        }
+        $instructorsModel = new Instructors();
+        if ($instructorId > 0 && !$instructorsModel->instructorCheck($instructorId)) {
+            echo json_encode(['success' => false, 'message' => 'Brak dostępu do tego prowadzącego.']);
+            return;
+        }
 
         $subjectsModel = new Subjects();
-
         $inserted = $subjectsModel->subjectInsert(
             $semesterId,
             $instructorId,
@@ -88,6 +96,7 @@ class SubjectController extends Controller
         }
 
         $subjects = new Subjects();
+
         $subjects->subjectDelete($subjectId, $semesterId);
 
         header('Location: /semester/view/'.$semesterId);

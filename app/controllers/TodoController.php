@@ -8,6 +8,10 @@ class TodoController extends Controller
             header('Location: /login');
             exit;
         }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $userId = (int)$_SESSION['userID'];
 
@@ -22,6 +26,10 @@ class TodoController extends Controller
     {
         if (!Auth::check() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /todo');
+            exit;
+        }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
             exit;
         }
 
@@ -43,6 +51,10 @@ class TodoController extends Controller
             header('Location: /todo');
             exit;
         }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $userId = (int)$_SESSION['userID'];
         $taskId = (int)$_POST['task_id'];
@@ -60,6 +72,10 @@ class TodoController extends Controller
             header('Location: /todo');
             exit;
         }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $userId = (int)$_SESSION['userID'];
         $taskId = (int)$_POST['task_id'];
@@ -74,6 +90,10 @@ class TodoController extends Controller
     {
         if (!Auth::check() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /todo');
+            exit;
+        }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
             exit;
         }
 

@@ -2,13 +2,14 @@
 
 class ScheduleController extends Controller
 {
-
-
-
     public function scheduleIndex()
     {
         if (!Auth::check()) {
             header('Location: /login');
+            exit;
+        }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
             exit;
         }
 
@@ -29,6 +30,10 @@ class ScheduleController extends Controller
             header('Location: /login');
             exit;
         }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $userId = (int)$_SESSION['userID'];
 
@@ -43,9 +48,13 @@ class ScheduleController extends Controller
     public function scheduleEdit()
     {
         if (!Auth::check()) {
-        header('Location: /login');
-        exit;
-    }
+            header('Location: /login');
+            exit;
+        }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $userId = (int)$_SESSION['userID'];
         $scheduleModel = new Schedule();
@@ -63,6 +72,10 @@ class ScheduleController extends Controller
             header('Location: /schedule/edit');
             exit;
         }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
+            exit;
+        }
 
         $subjectId = (int)$_POST['subject_id'];
         $dayOfWeek = (int)$_POST['day_of_week'];
@@ -73,8 +86,11 @@ class ScheduleController extends Controller
         $weekType  = trim($_POST['week_type'] ?? 'every');
 
         if ($subjectId > 0 && $dayOfWeek > 0 && !empty($startTime) && !empty($endTime)) {
-            $scheduleModel = new Schedule();
-            $scheduleModel->addEvent($subjectId, $dayOfWeek, $startTime, $endTime, $room, $classType, $weekType);
+            $subjectModel = new Subjects();
+            if ($subjectModel->getSubjectById($subjectId)) {
+                $scheduleModel = new Schedule();
+                $scheduleModel->addEvent($subjectId, $dayOfWeek, $startTime, $endTime, $room, $classType, $weekType);
+            }
         }
 
         header('Location: /schedule/edit');
@@ -85,6 +101,10 @@ class ScheduleController extends Controller
     {
         if (!Auth::check() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /schedule/edit');
+            exit;
+        }
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            echo json_encode(['success' => false, 'message' => 'Błąd autoryzacji formularza (CSRF).']);
             exit;
         }
 
