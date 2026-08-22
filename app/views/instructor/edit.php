@@ -1,3 +1,6 @@
+<?php
+/** @var array $instructor */
+?>
 <div class="main-content">
     <div class="page-header">
         <div class="header-title">
