@@ -44,21 +44,6 @@ $publicRoutes = [
     '/auth/register',
 ];
 
-$isLoggedIn = isset($_SESSION['userID']);
-$isPublicRoute = in_array($currentPath, $publicRoutes, true);
-
-if (!$isLoggedIn && !$isPublicRoute) {
-    header('Location: /login');
-    exit;
-}
-
-if ($isLoggedIn && $currentPath === '/login') {
-    header('Location: /');
-    exit;
-}
-
-$userId = $isLoggedIn ? (int) $_SESSION['userID'] : null;
-
 
 define('ROOT_PATH', dirname(__DIR__));
 define('APP_PATH', ROOT_PATH . '/app');
@@ -86,6 +71,21 @@ $router = new Router();
 
 
 require_once ROOT_PATH . '/routes/web.php';
+
+$isLoggedIn = Auth::check();
+$isPublicRoute = in_array($currentPath, $publicRoutes, true);
+
+if (!$isLoggedIn && !$isPublicRoute) {
+    header('Location: /login');
+    exit;
+}
+
+if ($isLoggedIn && $currentPath === '/login') {
+    header('Location: /');
+    exit;
+}
+
+$userId = Auth::id();
 
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

@@ -74,6 +74,10 @@
                             window.location.href = '/';
                             return;
                         }
+                        if (data.message === 'Nieprawidłowy token CSRF') {
+                            window.location.reload();
+                            return;
+                        }
                         alert(data.message);
                     })
                     .catch(function () {

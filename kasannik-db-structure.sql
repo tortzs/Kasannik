@@ -238,6 +238,16 @@ CREATE TABLE `Users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `auth_tokens`;
+CREATE TABLE auth_tokens (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ user_id INT NOT NULL,
+ selector CHAR(12) NOT NULL,
+ hashed_validator CHAR(64) NOT NULL,
+ expires DATETIME NOT NULL,
+ CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 
 INSERT INTO AssignmentTypes (TypeName) VALUES
    ('Kolokwium'),

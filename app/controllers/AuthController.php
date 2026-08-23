@@ -39,11 +39,12 @@ class AuthController extends Controller
         $userModel = new User();
 
         if ($userModel->login($email, $password)) {
+            //set remember me cookie
+            Auth::createRememberCookie((int)$_SESSION['userID']);
             echo json_encode([
                 'success' => true,
                 'message' => 'Zalogowano poprawnie'
             ]);
-
             return;
         }
 
@@ -125,6 +126,17 @@ class AuthController extends Controller
         ]);
     }
     public function logout(): void{
+
+        if (isset($_COOKIE['remember_token'])) {
+            $parts = explode(':', $_COOKIE['remember_token']);
+            if (count($parts) === 2) {
+                (new User())->deleteRememberToken($parts[0]);
+            }
+            // delete remember me cookie
+            $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+            setcookie('remember_token', '', time() - 3600, '/', '', $isSecure, true);
+        }
+
         (new User())->logout();
 
         header('Location: /');

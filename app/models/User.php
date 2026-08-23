@@ -145,4 +145,43 @@ class User extends Model
 
         return password_verify($passwordToVerify, $hash);
     }
+
+    public function saveRememberToken(int $userId, string $selector, string $hashedValidator, string $expires): bool
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO auth_tokens (user_id, selector, hashed_validator, expires) VALUES (:userId, :selector, :hashedValidator, :expires)");
+        return $stmt->execute([
+            'userId'            => $userId,
+            'selector'          => $selector,
+            'hashedValidator'   => $hashedValidator,
+            'expires'           => $expires
+        ]);
+    }
+
+    public function getRememberToken(string $selector): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT user_id, hashed_validator, expires FROM auth_tokens WHERE selector = :selector AND expires >= NOW() LIMIT 1");
+        $stmt->execute(['selector' => $selector]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+    public function updateRememberToken(string $selector, string $newHashedValidator, string $newExpires): void
+    {
+        $stmt = $this->pdo->prepare("UPDATE auth_tokens SET hashed_validator = :newHashedValidator, expires = :newExpires WHERE selector = :selector");
+        $stmt->execute([
+            'newHashedValidator'   => $newHashedValidator,
+            'newExpires'           => $newExpires,
+            'selector'          => $selector
+        ]);
+    }
+    public function deleteRememberToken(string $selector): void
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM auth_tokens WHERE selector = :selector");
+        $stmt->execute(['selector' => $selector]);
+    }
+
+    public function deleteAllUserTokens(int $userId): void
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM auth_tokens WHERE user_id = :userId");
+        $stmt->execute(['userId' => $userId]);
+    }
 }

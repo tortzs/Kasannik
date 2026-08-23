@@ -15,7 +15,7 @@ class Assignments extends Model
 
         $stmt->execute([
             'subjectId' => $subjectId,
-            'userId' => $this->userId
+            'userId' => $this->getCurrentUserId()
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -47,7 +47,7 @@ class Assignments extends Model
             JOIN Subjects sub ON a.SubjectID = sub.ID
             JOIN Semesters sem ON sub.SemesterID = sem.ID
             WHERE a.ID = :id AND sem.UserID = :userId;");
-        return $stmt->execute(['id' => $id, 'userId' => $this->userId]);
+        return $stmt->execute(['id' => $id, 'userId' => $this->getCurrentUserId()]);
     }
     public function updateProgress($id, $earnedPoints, $isCompleted)
     {
@@ -62,7 +62,7 @@ class Assignments extends Model
             'earnedPoints' => $earnedPoints,
             'isCompleted'  => $isCompleted,
             'id'           => $id,
-            'userId'       => $this->userId
+            'userId'       => $this->getCurrentUserId()
         ]);
     }
     public function updateAssignmentDetails($id, $teammembers, $notes)
@@ -79,7 +79,7 @@ class Assignments extends Model
             'teammembers' => $teammembers,
             'notes'       => $notes,
             'id'          => $id,
-            'userId'      => $this->userId
+            'userId'      => $this->getCurrentUserId()
         ]);
     }
     public function getUpcomingAssignments(int $userId, int $limit): array

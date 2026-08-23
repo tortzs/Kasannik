@@ -112,7 +112,7 @@ class Subjects extends Semesters{
             WHERE sub.ID = :id AND sem.UserID = :userId
         ");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':userId', $this->userId, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $this->getCurrentUserId(), PDO::PARAM_INT);
         return $stmt->execute();
     }
 
@@ -129,7 +129,7 @@ class Subjects extends Semesters{
             'maxPoints'   => $maxPoints,
             'description' => $description,
             'subjectId'   => $subjectId,
-            'userId'      => $this->userId
+            'userId'      => $this->getCurrentUserId()
         ]);
     }
 
@@ -144,7 +144,7 @@ class Subjects extends Semesters{
         ");
         $stmtDel->execute([
             'subId'  => $subjectId,
-            'userId' => $this->userId
+            'userId' => $this->getCurrentUserId()
         ]);
 
         if (!empty($usosUrl)) {
