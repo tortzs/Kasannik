@@ -1327,3 +1327,98 @@ select.form-control:invalid, select.form-control option[value=""] {
     border-left: 4px solid var(--color-orange);
     color: #c27027;
 }
+
+/* =========================================================
+   MOTYW CIEMNY
+========================================================= */
+
+body.dark-theme {
+    /* Tło */
+    --bg-color: #1a1423;
+    --bg-main: #1a1423;
+
+    /* Panele i boczny pasek */
+    --form-bg: #21192c;
+    --sidebar-bg: #21192c;
+
+    /* Akcenty */
+    --primary: #ff5c9a;
+    --primary-dark: #d33166;
+
+    /* Teksty */
+    --text-dark: #ffe5ff;
+    --text-gray: #a097cc;
+
+    /* Obramowania  */
+    --border-color: rgba(255, 92, 154, 0.3);
+    --border-color-light: rgba(255, 92, 154, 0.1);
+}
+
+/* Nadpisanie twardo wpisanych teł */
+body.dark-theme .card,
+body.dark-theme .table-container,
+body.dark-theme .form-card,
+body.dark-theme .timetable-wrapper,
+body.dark-theme .form-control,
+body.dark-theme .btn-secondary,
+body.dark-theme .btn-filter,
+body.dark-theme .page-btn,
+body.dark-theme .logout-btn,
+body.dark-theme .btn-icon,
+body.dark-theme .sidebar-nav a:hover {
+    background-color: var(--form-bg);
+    color: var(--text-dark);
+}
+
+/* Tła nagłówków tabel  */
+body.dark-theme .data-table th,
+body.dark-theme .time-header-empty,
+body.dark-theme .day-header {
+    background-color: #1c1525;
+}
+
+/* Hover */
+body.dark-theme .btn-icon.edit:hover,
+body.dark-theme .btn-icon.delete:hover,
+body.dark-theme .btn-secondary:hover,
+body.dark-theme .btn-filter:hover,
+body.dark-theme .logout-btn:hover {
+    background-color: rgba(255, 92, 154, 0.1);
+}
+
+/* Cienie */
+body.dark-theme .card,
+body.dark-theme #register-form,
+body.dark-theme #login-form,
+body.dark-theme .form-card,
+body.dark-theme .table-container,
+body.dark-theme .timetable-wrapper {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Event */
+body.dark-theme .event-type {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: var(--text-dark);
+}
+
+body.dark-theme select.form-control {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff5c9a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Miku Teto Decor */
+.sidebar-footer-deco .deco-teto {
+    display: none;
+}
+body.dark-theme .sidebar-footer-deco .deco-miku {
+    display: none;
+}
+body.dark-theme .sidebar-footer-deco .deco-teto {
+    display: block;
+}
+
+/* Transitions */
+body, .sidebar, .card, .main-content, .table-container, .form-card, .timetable-wrapper,
+input, select, th, td, .form-control, .btn-icon, .day-header, .time-header-empty {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
