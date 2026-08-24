@@ -107,7 +107,7 @@
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <a href="/subject/view/<?php echo urlencode($subject['SubjectID'] ?? '') ?>" class="btn-icon" style="color: var(--primary); border: 1px solid #b6e3de;"><i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="/subject/view/<?php echo urlencode($subject['SubjectID'] ?? '') ?>" class="btn-icon" style="color: var(--color-aqua); border: 1px solid var(--color-aqua-light);"><i class="fa-solid fa-arrow-right"></i></a>
                         <button type="button" class="btn-icon edit open-update-modal" 
                                 data-id="<?php echo (int)($subject['SubjectID'] ?? 0); ?>"
                                 data-maxpoints="<?php echo htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? ''); ?>"

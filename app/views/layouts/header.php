@@ -19,7 +19,7 @@
                 <a href="/user/logout" class="logout-btn" style="margin-top: 0; flex: 1; justify-content: center;">
                     <i class="fa-solid fa-arrow-right-from-bracket logout-link"></i> Wyloguj
                 </a>
-                <button id="sidebar-theme-toggle" style="background: white; border: 1px solid var(--border-color-light); border-radius: 20px; padding: 0 15px; color: var(--text-dark); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;">
+                <button id="sidebar-theme-toggle" class="sidebar-theme-toggle-btn">
                     <i class="fa-solid fa-circle-half-stroke"></i>
                 </button>
             </div>

@@ -32,6 +32,17 @@
     --color-WYK: #f26f98;
     --color-PROJ-light: #CFBEDB;
     --color-PROJ: #674D7B;
+
+    --color-KOLOS: #924943;
+    --color-KOLOS-light: #C8928D;
+    --color-EGZ: #826326;
+    --color-EGZ-light: #D2C39F;
+    --color-PROJ: #674D7B;
+    --color-PROJ-light: #CFBEDB;
+    --color-ZAD: #355F8B;
+    --color-ZAD-light: #8DA8C3;
+    --color-DEF: #6D5340;
+    --color-DEF-light: #A39083;
 }
 
 * {
@@ -517,21 +528,21 @@ body:has(.landing-wrapper) .main-content {
 .WYK-text { color: var(--color-pink); }
 .WYK-bg { color: var(--color-pink); background-color: var(--color-pink-light); }
 
-.item-icon.KOLOS { background-color: #C8928D; color: #924943; }
-.KOLOS-text { color: #924943; }
-.KOLOS-bg { color: #924943; background-color: #C8928D; }
-.item-icon.EGZ { background-color: #D2C39F; color: #826326; }
-.EGZ-text { color: #826326; }
-.EGZ-bg { color: #826326; background-color: #D2C39F; }
-.item-icon.PROJ { background-color: #CFBEDB; color: #674D7B; }
-.PROJ-text { color: #674D7B; }
-.PROJ-bg { color: #674D7B; background-color: #CFBEDB; }
-.item-icon.ZAD { background-color: #8DA8C3; color: #355F8B; }
-.ZAD-text { color: #355F8B; }
-.ZAD-bg { color: #355F8B; background-color: #8DA8C3; }
-.item-icon.DEF { background-color: #A39083; color: #6D5340; }
-.DEF-text { color: #6D5340; }
-.DEF-bg { color: #6D5340; background-color: #A39083; }
+.item-icon.KOLOS { background-color: var(--color-KOLOS-light); color: var(--color-KOLOS); }
+.KOLOS-text { color: var(--color-KOLOS); }
+.KOLOS-bg { color: var(--color-KOLOS); background-color: var(--color-KOLOS-light); }
+.item-icon.EGZ { background-color: var(--color-EGZ-light); color: var(--color-EGZ); }
+.EGZ-text { color: var(--color-EGZ); }
+.EGZ-bg { color: var(--color-EGZ); background-color: var(--color-EGZ-light); }
+.item-icon.PROJ { background-color: var(--color-PROJ-light); color: var(--color-PROJ); }
+.PROJ-text { color: var(--color-PROJ); }
+.PROJ-bg { color: var(--color-PROJ); background-color: var(--color-PROJ-light); }
+.item-icon.ZAD { background-color: var(--color-ZAD-light); color: var(--color-ZAD); }
+.ZAD-text { color: var(--color-ZAD); }
+.ZAD-bg { color: var(--color-ZAD); background-color: var(--color-ZAD-light); }
+.item-icon.DEF { background-color: var(--color-DEF-light); color: var(--color-DEF); }
+.DEF-text { color: var(--color-DEF); }
+.DEF-bg { color: var(--color-DEF); background-color: var(--color-DEF-light); }
 
 .list-item {
     display: flex;
@@ -904,7 +915,7 @@ td:last-child {
     font-weight: 700;
 }
 
-.badge-teal { background-color: var(--sidebar-bg); color: var(--primary); }
+.badge-teal { background-color: var(--color-aqua-light); color: var(--color-aqua); }
 .badge-purple { background-color: var(--color-purple-light); color: var(--color-purple); }
 .badge-pink { background-color: var(--color-pink-light); color: var(--color-pink); }
 
@@ -935,23 +946,23 @@ td:last-child {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: var(--form-bg);
     cursor: pointer;
     transition: all 0.2s;
     text-decoration: none;
 }
 
 .btn-icon.edit {
-    border: 1px solid #b6e3de; 
-    color: var(--primary);
+    border: 1px solid var(--color-aqua-light);
+    color: var(--color-aqua);
 }
 
 .btn-icon.edit:hover {
-    background-color: var(--sidebar-bg);
+    background-color: var(--color-aqua-light);
 }
 
 .btn-icon.delete {
-    border: 1px solid #f9b8cc; 
+    border: 1px solid var(--color-pink-light);
     color: var(--color-pink);
 }
 
@@ -1352,6 +1363,42 @@ body.dark-theme {
     /* Obramowania  */
     --border-color: rgba(255, 92, 154, 0.3);
     --border-color-light: rgba(255, 92, 154, 0.1);
+
+    /* Zamiana jasny-ciemny kolorow planu zajec */
+    --color-CW-light: #183d3b;
+    --color-CW: #45d6c6;
+    --color-LAB-light: #34214f;
+    --color-LAB: #be8df2;
+    --color-WYK-light: #4a2034;
+    --color-WYK: #ff85b3;
+    --color-PROJ-light: #352642;
+    --color-PROJ: #c4a7db;
+
+    /* Kolorki rzeczy */
+    --color-pink-light: #4a2034;
+    --color-pink: #ff85b3;
+    --color-blue-light: #2c2f4c;
+    --color-blue: #6ba5ff;
+    --color-purple-light: #34214f;
+    --color-purple: #be8df2;
+    --color-green-light: #253a31;
+    --color-green: #4cd97b;
+    --color-orange-light: #423036;
+    --color-orange: #ffb470;
+    --color-aqua-light: #183d3b;
+    --color-aqua: #45d6c6;
+
+    /* Zamiana jasny-ciemny kolorow zadan */
+    --color-KOLOS: #ff9a92;
+    --color-KOLOS-light: #47242e;
+    --color-EGZ: #eebd60;
+    --color-EGZ-light: #40302b;
+    --color-PROJ: #c4a7db;
+    --color-PROJ-light: #352642;
+    --color-ZAD: #7cb2ed;
+    --color-ZAD-light: #242c45;
+    --color-DEF: #cfa88a;
+    --color-DEF-light: #38272c;
 }
 
 /* Nadpisanie twardo wpisanych teł */
@@ -1364,7 +1411,7 @@ body.dark-theme .btn-secondary,
 body.dark-theme .btn-filter,
 body.dark-theme .page-btn,
 body.dark-theme .logout-btn,
-body.dark-theme .btn-icon,
+body.dark-theme .sidebar-theme-toggle-btn,
 body.dark-theme .sidebar-nav a:hover {
     background-color: var(--form-bg);
     color: var(--text-dark);
@@ -1382,7 +1429,8 @@ body.dark-theme .btn-icon.edit:hover,
 body.dark-theme .btn-icon.delete:hover,
 body.dark-theme .btn-secondary:hover,
 body.dark-theme .btn-filter:hover,
-body.dark-theme .logout-btn:hover {
+body.dark-theme .logout-btn:hover,
+body.dark-theme .sidebar-theme-toggle-btn:hover {
     background-color: rgba(255, 92, 154, 0.1);
 }
 
@@ -1417,8 +1465,58 @@ body.dark-theme .sidebar-footer-deco .deco-teto {
     display: block;
 }
 
+body.dark-theme .semester-badge {
+    background-color: #4d2642;
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.sidebar-theme-toggle-btn {
+    background: white;
+    border: 1px solid var(--color-pink-light);
+    border-radius: 20px;
+    padding: 0 15px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-theme-toggle-btn:hover {
+    background-color: var(--color-pink-light);
+}
+
+/* Schedule */
+.time-labels {
+    width: 60px;
+    border-right: 1px solid var(--border-color-light);
+    background: var(--form-bg);
+    flex-shrink: 0;
+}
+.timetable-wrapper {
+    display: flex;
+    background: var(--form-bg);
+    min-width: 950px;
+    position: relative;
+}
+.class-type-schedule {
+    background: rgba(255,255,255,0.6);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+}
+body.dark-theme .class-type-schedule {
+    background: rgba(0,0,0,0.6);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+}
 /* Transitions */
 body, .sidebar, .card, .main-content, .table-container, .form-card, .timetable-wrapper,
-input, select, th, td, .form-control, .btn-icon, .day-header, .time-header-empty {
+input, select, th, td, .form-control, .btn-icon, .day-header, .time-header-empty, .time-labels {
     transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }

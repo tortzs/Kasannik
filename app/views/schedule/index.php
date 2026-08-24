@@ -40,12 +40,11 @@ if (!empty($events)) {
 </div>
 
 <div class="card full-width" style="padding: 0; overflow-x: auto; border-radius: 16px;">
-    <div class="timetable-wrapper" style="display: flex; background: white; min-width: 950px; position: relative;">
-
-        <div class="time-labels" style="width: 60px; border-right: 1px solid var(--border-color-light); background: #fdfdfd; flex-shrink: 0;">
-            <div style="height: 50px; border-bottom: 1px solid var(--border-color-light);"></div> 
+    <div class="timetable-wrapper">
+        <div class="time-labels">
+            <div style="height: 50px; border-bottom: 1px solid var(--border-color-light); transition: border-color 0.5s ease;"></div>
             <?php for ($h = $startHour; $h < $endHour; $h++): ?>
-                <div style="height: 60px; text-align: right; padding-right: 10px; border-bottom: 1px solid var(--border-color-light); box-sizing: border-box; position: relative;">
+                <div style="height: 60px; text-align: right; padding-right: 10px; border-bottom: 1px solid var(--border-color-light); box-sizing: border-box; position: relative; transition: border-color 0.5s ease;">
                     <span style="position: absolute; top: -10px; right: 10px; font-size: 0.75rem; font-weight: 600; color: var(--text-gray);">
                         <?= $h ?>:00
                     </span>
@@ -54,9 +53,9 @@ if (!empty($events)) {
         </div>
 
         <?php foreach ($daysOfWeek as $dayNum => $dayName): ?>
-            <div class="day-col" style="flex: 1; border-right: 1px solid var(--border-color-light); position: relative;">
+            <div class="day-col" style="flex: 1; border-right: 1px solid var(--border-color-light); position: relative; transition: border-color 0.5s ease;">
 
-                <div style="text-align: center; background: #fdfdfd; color: var(--text-dark); padding: 15px 0; font-size: 0.95rem; font-weight: 700; height: 50px; border-bottom: 1px solid var(--border-color-light); box-sizing: border-box;">
+                <div style="text-align: center; background: var(--form-bg); color: var(--text-dark); padding: 15px 0; font-size: 0.95rem; font-weight: 700; height: 50px; border-bottom: 1px solid var(--border-color-light); box-sizing: border-box; transition: background-color 0.5s ease;">
                     <?= $dayName ?>
                 </div>
 
@@ -84,7 +83,7 @@ if (!empty($events)) {
                                 
                                 <div style="color: var(--color-<?=$event['ClassType']?>); font-size: 0.7rem; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center;">
                                     <span><i class="fa-regular fa-clock" style="margin-right: 3px;"></i><?= htmlspecialchars(date('H:i', strtotime($event['StartTime']))) ?></span>
-                                    <span style="background: rgba(255,255,255,0.6); padding: 2px 6px; border-radius: 4px; font-size: 0.65rem;"><?= htmlspecialchars($event['ClassType']) ?></span>
+                                    <span class="class-type-schedule" style=""><?= htmlspecialchars($event['ClassType']) ?></span>
                                 </div>
 
                                 <div style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark); line-height: 1.2; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">

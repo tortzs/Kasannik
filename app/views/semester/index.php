@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <a href="/semester/view/<?php echo $semester['ID']?>" class="btn-icon" style="color: var(--primary); border: 1px solid #b6e3de;"><i class="fa-solid fa-eye"></i></a>
+                            <a href="/semester/view/<?php echo $semester['ID']?>" class="btn-icon" style="color: var(--color-aqua); border: 1px solid var(--color-aqua-light);"><i class="fa-solid fa-eye"></i></a>
                             <a href="/semester/edit/<?php echo $semester['ID']?>" class="btn-icon edit"><i class="fa-solid fa-pen"></i></a>
                             <form method="post" action="/semester/delete" style="margin: 0;" onsubmit="return confirm('Na pewno usunąć semestr?');">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
