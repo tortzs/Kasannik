@@ -80,7 +80,6 @@ class User extends Model
                 'id'     => $userId
             ]);
 
-            // Opcjonalnie: Zapisujemy do sesji, żeby sidebar od razu zaktualizował zdjęcie!
             $_SESSION['avatar'] = $avatarFilename;
         }
         if ($password !== null) {
@@ -123,7 +122,7 @@ class User extends Model
     public function getUserById(int $id): ?array
     {
         $stmt = $this->pdo->prepare("
-            SELECT ID, Username, Email, CreatedAt, ThemePreference 
+            SELECT ID, Username, Email, CreatedAt, ThemePreference, Avatar 
             FROM Users 
             WHERE ID = :id
         ");
@@ -183,5 +182,13 @@ class User extends Model
     {
         $stmt = $this->pdo->prepare("DELETE FROM auth_tokens WHERE user_id = :userId");
         $stmt->execute(['userId' => $userId]);
+    }
+    public function updateTheme(int $userId, string $theme): bool
+    {
+        $stmt = $this->pdo->prepare("UPDATE Users SET ThemePreference = :theme WHERE ID = :userId");
+        $stmt->bindValue(':theme', $theme, PDO::PARAM_STR);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
 }

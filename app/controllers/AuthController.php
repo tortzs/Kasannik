@@ -255,5 +255,34 @@ class AuthController extends Controller
         }
         exit;
     }
+    public function updateTheme()
+    {
+        $userId = Auth::id();
+        if (!$userId || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(401);
+            echo json_encode(['error' => 'Brak autoryzacji']);
+            return;
+        }
 
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        if (!isset($data['theme']) || !in_array($data['theme'], ['light', 'dark'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Nieprawidłowa wartość motywu']);
+            return;
+        }
+        $dbTheme = ($data['theme'] === 'dark') ? 'Dark' : 'Light';
+
+        $userModel = new User();
+        $success = $userModel->updateTheme($userId, $dbTheme);
+
+        if ($success) {
+            $_SESSION['prefferedTheme'] = $data['theme'];
+            echo json_encode(['success' => true]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Błąd zapisu w bazie danych']);
+        }
+    }
 }

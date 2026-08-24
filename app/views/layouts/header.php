@@ -1,6 +1,3 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
 <aside class="sidebar">
         <a href="/dashboard" class="sidebar-logo">
             <span class="logo-badge">01</span>
@@ -18,13 +15,38 @@
                 <div class="profile-role">Student</div>
                 <span class="semester-badge"><?php echo htmlspecialchars($_SESSION['active_semester_name'] ?? 'Brak aktywnego semestru'); ?></span>
             </a>
-            <a href="/user/logout" class="logout-btn">
-                <i class="fa-solid fa-arrow-right-from-bracket logout-link"></i> Wyloguj się
-            </a>
+            <div style="display: flex; gap: 10px; margin-top: 15px; width: 100%; padding: 0 15px; box-sizing: border-box;">
+                <a href="/user/logout" class="logout-btn" style="margin-top: 0; flex: 1; justify-content: center;">
+                    <i class="fa-solid fa-arrow-right-from-bracket logout-link"></i> Wyloguj
+                </a>
+                <button id="sidebar-theme-toggle" style="background: white; border: 1px solid var(--border-color-light); border-radius: 20px; padding: 0 15px; color: var(--text-dark); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </button>
+            </div>
             <script>
                 document.querySelector('.logout-link').addEventListener('click', function(e) {
+                    const currentTheme = localStorage.getItem('kasannik-theme');
                     sessionStorage.clear();
                     localStorage.clear();
+                    if (currentTheme) {
+                        localStorage.setItem('kasannik-theme', currentTheme);
+                    }
+                });
+                document.getElementById('sidebar-theme-toggle').addEventListener('click', function() {
+                    const body = document.body;
+                    body.classList.toggle('dark-theme');
+
+                    const isDark = body.classList.contains('dark-theme');
+                    const newTheme = isDark ? 'dark' : 'light';
+                    localStorage.setItem('kasannik-theme', newTheme);
+
+                    fetch('/user/updateTheme', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ theme: newTheme })
+                    }).catch(err => console.error('Błąd zapisu motywu w bazie:', err));
                 });
             </script>
         </div>
@@ -39,7 +61,13 @@
         </nav>
 
         <div class="sidebar-footer-deco">
-            <div class="deco-number">01</div>
-            <div class="deco-text">HATSUNE<br>MIKU</div>
+            <div class="deco-miku">
+                <div class="deco-number">01</div>
+                <div class="deco-text">HATSUNE<br>MIKU</div>
+            </div>
+            <div class="deco-teto">
+                <div class="deco-number">0401</div>
+                <div class="deco-text">KASANE<br>TETO</div>
+            </div>
         </div>
     </aside>
