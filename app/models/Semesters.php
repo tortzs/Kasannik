@@ -135,4 +135,18 @@ class Semesters extends Model
 
         return $result ? (int)$result : null;
     }
+    public function getActiveSemester(int $userId)
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT * 
+            FROM Semesters 
+            WHERE UserID = :userId AND IsCurrent = 1 
+            LIMIT 1
+        ");
+
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

@@ -22,6 +22,13 @@ class Auth
                 if ($tokenData) {
                     if (hash_equals($tokenData['hashed_validator'], hash('sha256', $validator))) {
                         $_SESSION['userID'] = (int)$tokenData['user_id'];
+                        $userId = (int)$tokenData['user_id'];
+                        $userData = $userModel->getUserById($userId);
+                        $_SESSION['username'] = $userData['Username'];
+                        $_SESSION['avatar'] = $userData['Avatar'];
+                        $semesterModel = new Semesters();
+                        $activeSemester = $semesterModel->getActiveSemester($userId);
+                        $_SESSION['active_semester_name'] = $activeSemester ? $activeSemester['Name'] : 'Brak aktywnego semestru';
 
                         //rotate token with same selector
                         $newValidator = bin2hex(random_bytes(32));
