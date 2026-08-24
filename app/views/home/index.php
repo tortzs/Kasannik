@@ -1,7 +1,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/landing.css">
 
-<div class="landing-wrapper">
+<div class="landing-wrapper" id="app-wrapper">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('kasannik-theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.getElementById('app-wrapper').classList.add('dark-theme');
+            }
+        })();
+    </script>
     <div class="landing-container">
         <nav class="navbar">
             <div class="nav-profile-group">
@@ -148,6 +157,8 @@
 
             toggleBtn.addEventListener('click', () => {
                 wrapper.classList.toggle('dark-theme');
+                const isDark = wrapper.classList.contains('dark-theme');
+                localStorage.setItem('kasannik-theme', isDark ? 'dark' : 'light');
             });
         </script>
     </div>
