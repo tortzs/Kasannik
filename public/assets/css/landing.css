@@ -599,6 +599,12 @@
     opacity: 0.8;
 }
 
+.landing-wrapper .footer-content a {
+    text-decoration: none;
+    color: var(--text-main);
+    position: relative;
+}
+
 /* Obsluga telefonu */
 @media (max-width: 900px) {
     .landing-wrapper .authors-section {

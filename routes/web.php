@@ -7,6 +7,7 @@
  */
 $router->get('/', 'HomeController@index');
 $router->get('/dashboard', 'HomeController@dashboard');
+$router->get('/terms', 'HomeController@terms');
 /*
  * Schedule
  */

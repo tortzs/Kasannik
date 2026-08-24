@@ -10,7 +10,9 @@ class HomeController extends Controller
         }
         $this->view('home/index');
     }
-
+    public function terms() {
+        $this->view('home/terms');
+    }
     public function dashboard()
     {
         $userId = (int)$_SESSION['userID'];

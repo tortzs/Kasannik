@@ -138,7 +138,7 @@
         </main>
         <footer class="landing-footer">
             <div class="footer-content">
-                <span class="footer-brand">Kasannik &copy; 2026 - <a>Polityka prywatności i regulamin</a></span>
+                <span class="footer-brand">Kasannik &copy; 2026 - <a href="/terms">Polityka prywatności i regulamin</a></span>
                 <span class="footer-motto">Wielbmy Teto i jedzmy bagietki 🥖</span>
             </div>
         </footer>

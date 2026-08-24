@@ -38,6 +38,7 @@ if ($currentPath === '') {
 
 $publicRoutes = [
     '/',
+    '/terms',
     '/login',
     '/register',
     '/auth/login',
