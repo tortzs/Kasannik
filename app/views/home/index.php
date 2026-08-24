@@ -1,10 +1,154 @@
-<?php
-//session_start(); # we create session in public/index.php already
-if (Auth::check()) {
-    header("Location: /dashboard");
-    exit();
-} else {
-    header("Location: /login");
-    exit();
-}
-?>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/landing.css">
+
+<div class="landing-wrapper">
+    <div class="landing-container">
+        <nav class="navbar">
+            <div class="nav-profile-group">
+                <button class="icon-btn btn-profile">K</button>
+            </div>
+
+            <div class="nav-links">
+                <a href="#" class="active">O projekcie</a>
+                <a href="#">Funkcje</a>
+                <a href="#">Twórcy</a>
+            </div>
+
+            <div class="nav-auth-group">
+                <button id="theme-toggle" class="btn-rounded btn-theme">Przełącz Motyw</button>
+                <a href="/login" class="btn-rounded btn-outline">Zaloguj się</a>
+                <a href="/register" class="btn-rounded btn-solid">Zarejestruj się</a>
+            </div>
+        </nav>
+        <header class="hero-banner">
+            <div class="hero-content">
+                <img src="/assets/images/logo.png" alt="Logo" class="hero-logo" onerror="this.style.display='none'">
+
+                <h1>Kasannik</h1>
+                <h3>Twój osobisty, bezpieczny asystent akademicki.</h3>
+                <p>Zarządzaj planem zajęć, śledź postępy i nigdy więcej nie przegap deadline'u.
+                Błyskawiczny dostęp do planu zajęć, ocen i projektów. Gotowy na nowy semestr?</p>
+
+                <a href="/register" class="start-button">Zacznij już teraz!</a>
+            </div>
+
+            <div class="hero-character-container">
+                <img src="/assets/images/miku-landingpage.png" alt="Miku" class="hero-character miku-char">
+                <img src="/assets/images/teto-landingpage.webp" alt="Teto" class="hero-character teto-char" onerror="this.style.display='none'">
+            </div>
+        </header>
+        <main class="dashboard-grid">
+            <section>
+                <h2 class="section-title">Najważniejsze funkcje &gt;</h2>
+                <div class="features-grid">
+                    <div class="features-card">
+                        <h3>Wszystko pod ręką</h3>
+                        <p>Plan zajęć, linki do USOSa i Moodle, adresy e-mail do prowadzących - Wszystko w jednym miejscu!</p>
+                    </div>
+                    <div class="features-card">
+                        <h3>Przypomnienia o deadlineach</h3>
+                        <p>Wszystkie terminy kolokwiów i oddawania projektów w jednym miejscu - posegregowane według najbliższej daty!</p>
+                    </div>
+                    <div class="features-card">
+                        <h3>Przejrzystość</h3>
+                        <p>Pełny kod źródłowy aplikacji dostępny jest na GitHub! Nie zbieramy logów o użytkownikach.</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2 class="section-title">Moduły</h2>
+                <div class="modules-list">
+                    <div class="module-item">&gt; Plan zajęć</div>
+                    <div class="module-item">&gt; Spis semestrów</div>
+                    <div class="module-item">&gt; Lista prowadzących</div>
+                    <div class="module-item">&gt; Przedmioty</div>
+                    <div class="module-item">&gt; Zadania i zaliczenia</div>
+                    <div class="module-item">&gt; Najbliższe terminy</div>
+                    <div class="module-item">&gt; Lista To-Do</div>
+                </div>
+            </section>
+            <section>
+                <h2 class="section-title">Jak zacząć?</h2>
+                <div class="info-list">
+                    <div class="info-card">
+                        <div class="info-number">01</div>
+                        <div class="info-text">
+                            <h3>Utwórz konto</h3>
+                            <p>Zarejestruj się w kilka sekund. Bezpieczne logowanie chroni Twoje dane i plany zajęć.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-number">02</div>
+                        <div class="info-text">
+                            <h3>Dodaj przedmioty</h3>
+                            <p>Skonfiguruj swój semestr. Dodaj prowadzących, podepnij linki do USOSa, Moodle'a i Teamsów.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-number">03</div>
+                        <div class="info-text">
+                            <h3>Kontroluj chaos</h3>
+                            <p>Dodawaj zadania, sprawdzaj terminy kolokwiów i ciesz się spokojem przez całą sesję.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <h2 class="author-section-name">O nas</h2>
+            <section class="authors-section">
+                <div class="author-card maintainer-card">
+                    <h3 class="author-title">Project Maintainer</h3>
+
+                    <div class="author-profile main-author">
+                        <div class="avatar-large" style="background-image: url('https://github.com/zheyurii.png');"></div>
+
+                        <div class="author-details">
+                            <h4>zheYurii</h4>
+                            <span class="role-badge cyan-badge">Lead Developer</span>
+                            <p>Rozwijam logikę biznesową, dbam o cyberbezpieczeństwo oraz infrastrukturę serwerową. Pilnuję, żeby Kasannik działał szybko i stabilnie.</p>
+                            <p>Obecnie prowadzę ten projekt w pojedynkę - poprawiam błędy, dodaję nowe funkcje i pracuję nad nowym stylem (czego przykładem jest ta strona).</p>
+                            <p>A przy okazji tworzę coś, co przyda się nam wszystkim :3</p>
+                            <a href="https://zheyurii.xyz" target="_blank" class="author-button">
+                                Zobacz moje pozostałe projekty →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="author-card crew-card">
+                    <h3 class="author-title">Projekt nigdy by nie powstał bez ich pomocy:</h3>
+                    <div class="author-profile side-author">
+                        <div class="avatar-medium" style="background-image: url('https://github.com/tortzs.png');"></div>
+                        <div class="author-details">
+                            <h4>tortzsu</h4>
+                            <span class="role-badge pink-badge">System Architect</span>
+                            <p>Zaprojektował fundamenty aplikacji i autorski system routingu MVC. Zbudował solidną bazę architektoniczną, na której do dziś opiera się cały silnik Kasannika.</p>
+                        </div>
+                    </div>
+                    <div class="author-profile side-author">
+                        <div class="avatar-medium" style="background-image: url('https://github.com/idex04.png');"></div>
+                        <div class="author-details">
+                            <h4>idex</h4>
+                            <span class="role-badge purple-badge">UI/UX Designer</span>
+                            <p>Stworzył fundamenty warstwy wizualnej głównego systemu aplikacji, na której do dziś opiera się ten nowoczesny, przejrzysty styl, a korzystanie z niego to czysta przyjemność.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="landing-footer">
+            <div class="footer-content">
+                <span class="footer-brand">Kasannik &copy; 2026 - <a>Polityka prywatności i regulamin</a></span>
+                <span class="footer-motto">Wielbmy Teto i jedzmy bagietki 🥖</span>
+            </div>
+        </footer>
+        <script>
+            const wrapper = document.querySelector('.landing-wrapper');
+            const toggleBtn = document.getElementById('theme-toggle');
+
+            toggleBtn.addEventListener('click', () => {
+                wrapper.classList.toggle('dark-theme');
+            });
+        </script>
+    </div>
+</div>

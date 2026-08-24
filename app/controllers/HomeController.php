@@ -2,11 +2,13 @@
 
 class HomeController extends Controller
 {
-
     public function index()
     {
-
-        $this->view("home/index");
+        if (Auth::check()) {
+            header("Location: /dashboard");
+            exit;
+        }
+        $this->view('home/index');
     }
 
     public function dashboard()

@@ -49,15 +49,18 @@ body {
 }
 
 body:has(.auth-wrapper), 
-body:has(.login-wrapper) {
+body:has(.login-wrapper),
+body:has(.landing-wrapper) {
     background-color: var(--bg-color);
     display: block;
 }
 
 body:has(.auth-wrapper) .sidebar, 
 body:has(.login-wrapper) .sidebar,
+body:has(.landing-wrapper) .sidebar,
 body:has(.auth-wrapper) .main-content, 
-body:has(.login-wrapper) .main-content {
+body:has(.login-wrapper) .main-content
+body:has(.landing-wrapper) .main-content {
     display: none;
 }
 
