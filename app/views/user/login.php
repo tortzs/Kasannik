@@ -9,7 +9,9 @@
 <body>
     <div class="login-wrapper">
         <div class="logo-container">
-            <h1>Kasannik<span class="logo-badge">01</span></h1>
+            <a href="/" style="text-decoration: none; color: inherit; display: block;">
+                <h1>Kasannik<span class="logo-badge">01</span></h1>
+            </a>
         </div>
 
         <form method="post" id="login-form">
