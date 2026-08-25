@@ -9,7 +9,9 @@
 <body>
     <div class="auth-wrapper">
         <div class="logo-container">
-            <h1>Kasannik<span class="logo-badge">01</span></h1>
+            <a href="/" style="text-decoration: none; color: inherit; display: block;">
+                <h1>Kasannik<span class="logo-badge">01</span></h1>
+            </a>
         </div>
 
         <form method="post" id="register-form">
@@ -36,6 +38,15 @@
                 <i class="fa-solid fa-lock"></i>
                 <input type="password" name="password_repeat" placeholder="Powtórz hasło" required>
                 <i class="fa-solid fa-eye-slash toggle-password"></i>
+            </div>
+
+            <div class="terms-checkbox-group">
+                <input type="checkbox" id="terms_consent" name="terms_consent" class="custom-checkbox" required>
+                <label for="terms_consent" class="terms-label">
+                    Zapoznałem się i akceptuję
+                    <a href="/terms" target="_blank" class="theme-link">Regulamin</a> oraz
+                    <a href="/terms" target="_blank" class="theme-link">Politykę Prywatności</a>.
+                </label>
             </div>
 
             <button type="submit" name="register_submit">Zarejestruj</button>
