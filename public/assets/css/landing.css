@@ -608,6 +608,39 @@
 
 @media (max-width: 900px) {
 
+    .landing-wrapper .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 4rem;
+    }
+
+    .landing-wrapper .nav-profile-group {
+        order: 1;
+    }
+
+    .landing-wrapper .nav-links {
+        order: 3;
+        width: 100%;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .landing-wrapper .nav-auth-group {
+        order: 2;
+        display: flex;
+        gap: 12px;
+    }
+
+    .landing-wrapper .nav-auth-group .btn-rounded {
+        padding: 0.6rem 0.9rem;
+        white-space: nowrap;
+        flex: 1;
+        text-align: center;
+    }
     .landing-wrapper .hero-banner {
         --mascot-width: clamp(150px, 28vw, 260px);
         --pop-out-top: 55px;
