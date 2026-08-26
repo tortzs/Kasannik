@@ -69,8 +69,11 @@ body:has(.landing-wrapper) {
 body:has(.auth-wrapper) .sidebar, 
 body:has(.login-wrapper) .sidebar,
 body:has(.landing-wrapper) .sidebar,
+body:has(.auth-wrapper) .mobile-menu-btn,
+body:has(.login-wrapper) .mobile-menu-btn,
+body:has(.landing-wrapper) .mobile-menu-btn,
 body:has(.auth-wrapper) .main-content, 
-body:has(.login-wrapper) .main-content
+body:has(.login-wrapper) .main-content,
 body:has(.landing-wrapper) .main-content {
     display: none;
 }

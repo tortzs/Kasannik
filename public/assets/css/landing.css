@@ -605,9 +605,83 @@
     position: relative;
 }
 
-/* Obsluga telefonu */
 @media (max-width: 900px) {
+
+    .landing-wrapper .hero-banner {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.5rem 0 1.5rem;
+        text-align: center;
+    }
+
+    .landing-wrapper .hero-content {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .landing-wrapper .hero-character-container {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        right: 0;
+    }
+
+    .landing-wrapper .hero-character {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        max-width: 250px;
+    }
+
     .landing-wrapper .authors-section {
         flex-direction: column;
+    }
+
+    .landing-wrapper .author-card {
+        padding: 1.5rem;
+    }
+
+    .landing-wrapper .author-profile {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 10px 15px;
+        align-items: center;
+    }
+
+    .landing-wrapper .author-details {
+        display: contents;
+    }
+
+    .landing-wrapper .avatar-large,
+    .landing-wrapper .avatar-medium {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        width: 80px;
+        height: 80px;
+        margin: 0;
+    }
+
+    .landing-wrapper .author-details h4 {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: end;
+        margin: 0;
+    }
+
+    .landing-wrapper .author-details .role-badge {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: start;
+        justify-self: start;
+    }
+
+    .landing-wrapper .author-details p,
+    .landing-wrapper .author-details a {
+        grid-column: 1 / -1;
+        text-align: left;
+    }
+
+    .landing-wrapper .author-details p:first-of-type {
+        margin-top: 15px;
     }
 }
