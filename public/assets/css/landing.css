@@ -247,8 +247,10 @@
 }
 
 .landing-wrapper .hero-character-container {
+    --pop-out-top: 30px;
+
+    top: calc(var(--pop-out-top) * -1);
     position: absolute;
-    bottom: 0;
     right: 2rem;
     width: 45%;
     height: 100%;
@@ -266,7 +268,6 @@
 
 .landing-wrapper .hero-character {
     position: absolute;
-    bottom: 0;
     right: 2rem;
     width: 100%;
     max-width: 380px;
@@ -608,29 +609,55 @@
 @media (max-width: 900px) {
 
     .landing-wrapper .hero-banner {
+        --mascot-width: clamp(150px, 28vw, 260px);
+        --pop-out-top: 55px;
+        --dynamic-gap: calc((var(--mascot-width) * 0.6) - var(--pop-out-top));
+
         display: flex;
         flex-direction: column;
-        padding: 2rem 1.5rem 0 1.5rem;
-        text-align: center;
+        padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+        text-align: left;
+        position: relative;
     }
 
     .landing-wrapper .hero-content {
         width: 100%;
-        margin-bottom: 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .landing-wrapper .hero-banner h1 {
+        margin-bottom: var(--dynamic-gap) !important;
+        position: relative;
+        z-index: 2;
+    }
+
+    .landing-wrapper .hero-banner h3,
+    .landing-wrapper .hero-banner p {
+        position: relative;
+        z-index: 12;/
+        padding-right: calc(var(--mascot-width) * 0.6);
     }
 
     .landing-wrapper .hero-character-container {
-        position: relative;
-        width: 100%;
-        height: 280px;
-        right: 0;
+        position: absolute;
+        top: calc(var(--pop-out-top) * -1);
+        right: 2rem;
+        width: var(--mascot-width);
+        height: auto;
+        z-index: 10;
+        pointer-events: none;
     }
 
     .landing-wrapper .hero-character {
-        left: 0;
+        bottom: auto;
+        top: 0;
         right: 0;
-        margin: 0 auto;
-        max-width: 250px;
+        left: auto;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        height: auto;
     }
 
     .landing-wrapper .authors-section {
