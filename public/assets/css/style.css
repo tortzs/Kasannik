@@ -45,6 +45,11 @@
     --color-DEF-light: #A39083;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 160px;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;

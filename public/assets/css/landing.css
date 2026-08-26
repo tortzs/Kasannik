@@ -18,6 +18,7 @@
     --hero-gradient-start: #8ae7d9;
     --hero-gradient-end: #6ad0c4;
     --text-on-hero: #37475a;
+    --nav-bg: rgba(244, 249, 249, 0.85);
 
     /* Przyciski */
     --gradient-one: #4abcb0;
@@ -59,6 +60,7 @@
     --hero-gradient-start:  #9c2d50;;
     --hero-gradient-end: #6e2039;
     --text-on-hero: #ffe5ff;
+    --nav-bg: rgba(26, 20, 35, 0.85);
 
     /* Przyciski */
     --gradient-one: #ca3966;
@@ -89,7 +91,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
     z-index: 10;
 
     /* Wzor na tle */
@@ -108,6 +110,27 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5rem;
+
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background-color 0.5s ease;
+
+    box-shadow: inset 0 -2px 0 0 var(--accent-dark);
+
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+
+    padding-left: calc(50vw - 50%);
+    padding-right: calc(50vw - 50%);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    border-radius: 0;
 }
 
 .landing-wrapper .nav-profile-group {
@@ -156,17 +179,26 @@
     text-decoration: none;
     color: var(--text-main);
     position: relative;
+    padding: 5px 0;
 }
 
-.landing-wrapper .nav-links a.active::after {
+.landing-wrapper .nav-links a::after {
     content: '';
     position: absolute;
-    bottom: -6px;
+    bottom: -2px;
     left: 0;
     width: 100%;
     height: 3px;
     background-color: var(--text-main);
     border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    transform-origin: center;
+}
+
+.landing-wrapper .nav-links a.active::after,
+.landing-wrapper .nav-links a:hover::after {
+    transform: scaleX(1);
 }
 
 .landing-wrapper .nav-auth-group {
@@ -467,7 +499,7 @@
 }
 
 .landing-wrapper .main-author {
-    margin-top: 0rem;
+    margin-top: 0;
 }
 
 .landing-wrapper .side-author {

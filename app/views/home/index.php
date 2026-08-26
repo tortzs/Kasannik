@@ -18,9 +18,9 @@
             </div>
 
             <div class="nav-links">
-                <a href="#" class="active">O projekcie</a>
-                <a href="#">Funkcje</a>
-                <a href="#">Twórcy</a>
+                <a href="#about" class="active">O projekcie</a>
+                <a href="#features">Funkcje</a>
+                <a href="#aboutus">O nas</a>
             </div>
 
             <div class="nav-auth-group">
@@ -29,7 +29,31 @@
                 <a href="/register" class="btn-rounded btn-solid">Zarejestruj się</a>
             </div>
         </nav>
-        <header class="hero-banner">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const sections = document.querySelectorAll('header[id], section[id]');
+                const navLinks = document.querySelectorAll('.nav-links a');
+
+                window.addEventListener('scroll', () => {
+                    let current = 'about';
+
+                    sections.forEach(section => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top <= 300) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + current) {
+                            link.classList.add('active');
+                        }
+                    });
+                });
+            });
+        </script>
+        <header class="hero-banner" id="about">
             <div class="hero-content">
                 <img src="/assets/images/logo.png" alt="Logo" class="hero-logo" onerror="this.style.display='none'">
 
@@ -47,7 +71,7 @@
             </div>
         </header>
         <main class="dashboard-grid">
-            <section>
+            <section id="features">
                 <h2 class="section-title">Najważniejsze funkcje &gt;</h2>
                 <div class="features-grid">
                     <div class="features-card">
@@ -105,7 +129,7 @@
                 </div>
             </section>
             <h2 class="author-section-name">O nas</h2>
-            <section class="authors-section">
+            <section id="aboutus" class="authors-section">
                 <div class="author-card maintainer-card">
                     <h3 class="author-title">Project Maintainer</h3>
 
