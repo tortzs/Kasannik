@@ -24,7 +24,7 @@
             </div>
 
             <div class="nav-auth-group">
-                <button id="theme-toggle" class="btn-rounded btn-theme">Przełącz Motyw</button>
+                <button id="theme-toggle" class="btn-rounded btn-theme icon-btn-theme" aria-label="Przełącz motyw"><i class="fa-solid fa-moon"></i></button>
                 <a href="/login" class="btn-rounded btn-outline">Zaloguj się</a>
                 <a href="/register" class="btn-rounded btn-solid">Zarejestruj się</a>
             </div>
@@ -179,10 +179,26 @@
             const wrapper = document.querySelector('.landing-wrapper');
             const toggleBtn = document.getElementById('theme-toggle');
 
+            document.addEventListener('DOMContentLoaded', () => {
+                const isDark = wrapper.classList.contains('dark-theme');
+                const icon = toggleBtn.querySelector('i');
+                if (icon && isDark) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                }
+            });
+
             toggleBtn.addEventListener('click', () => {
                 wrapper.classList.toggle('dark-theme');
                 const isDark = wrapper.classList.contains('dark-theme');
                 localStorage.setItem('kasannik-theme', isDark ? 'dark' : 'light');
+                const icon = toggleBtn.querySelector('i');
+                if (icon) {
+                    if (isDark) {
+                        icon.classList.replace('fa-moon', 'fa-sun');
+                    } else {
+                        icon.classList.replace('fa-sun', 'fa-moon');
+                    }
+                }
             });
         </script>
     </div>

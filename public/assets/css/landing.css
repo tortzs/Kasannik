@@ -641,89 +641,126 @@
 @media (max-width: 900px) {
 
     .landing-wrapper .navbar {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 4rem;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        gap: 15px 10px;
+
+        padding-left: calc(50vw - 50% + 1.2rem);
+        padding-right: calc(50vw - 50% + 1.2rem);
     }
 
-    .landing-wrapper .nav-profile-group {
-        order: 1;
+    landing-wrapper .nav-profile-group {
+        grid-column: 1;
+        grid-row: 1;
     }
 
     .landing-wrapper .nav-links {
-        order: 3;
-        width: 100%;
+        grid-column: 2;
+        grid-row: 1;
         display: flex;
+        justify-content: flex-end;
+        align-items: center;
         gap: 12px;
-        justify-content: center;
+        font-size: 0.85rem;
     }
 
     .landing-wrapper .nav-auth-group {
-        order: 2;
+        grid-column: 1 / -1;
+        grid-row: 2;
         display: flex;
-        gap: 12px;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+    }
+    .landing-wrapper .nav-auth-group .icon-btn-theme {
+        flex: 0 0 42px !important;
+        height: 42px;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+    }
+    .landing-wrapper .nav-auth-group .btn-rounded:not(.icon-btn-theme) {
+        flex: 1;
+        padding: 0.6rem 0;
+        text-align: center;
+        font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+        white-space: nowrap;
     }
 
-    .landing-wrapper .nav-auth-group .btn-rounded {
-        padding: 0.6rem 0.9rem;
-        white-space: nowrap;
-        flex: 1;
-        text-align: center;
-    }
     .landing-wrapper .hero-banner {
-        --mascot-width: clamp(150px, 28vw, 260px);
-        --pop-out-top: 55px;
-        --dynamic-gap: calc((var(--mascot-width) * 0.6) - var(--pop-out-top));
+        --mascot-width: clamp(100px, 30vw, 170px);
 
         display: flex;
         flex-direction: column;
-        padding: 2.5rem 1.5rem 2.5rem 1.5rem;
-        text-align: left;
+        padding: 2.5rem 1.5rem;
         position: relative;
     }
-
     .landing-wrapper .hero-content {
-        width: 100%;
-        position: relative;
-        z-index: 2;
-    }
-
-    .landing-wrapper .hero-banner h1 {
-        margin-bottom: var(--dynamic-gap) !important;
-        position: relative;
-        z-index: 2;
-    }
-
-    .landing-wrapper .hero-banner h3,
-    .landing-wrapper .hero-banner p {
-        position: relative;
-        z-index: 12;/
-        padding-right: calc(var(--mascot-width) * 0.6);
+        width: 100% !important;
     }
 
     .landing-wrapper .hero-character-container {
         position: absolute;
-        top: calc(var(--pop-out-top) * -1);
-        right: 2rem;
-        width: var(--mascot-width);
+        top: -45px;
+        right: -5px;
+        width: var(--mascot-width) !important;
         height: auto;
-        z-index: 10;
+
+        z-index: 20;
         pointer-events: none;
     }
 
     .landing-wrapper .hero-character {
-        bottom: auto;
-        top: 0;
-        right: 0;
-        left: auto;
-        margin: 0;
         width: 100%;
-        max-width: none;
         height: auto;
+        margin: 0;
     }
+
+    .landing-wrapper .hero-banner h1 {
+        font-size: clamp(2rem, 8vw, 3rem) !important;
+
+        padding-right: calc(var(--mascot-width) - 10px);
+        margin-bottom: 2rem !important;
+
+        white-space: normal;
+        word-break: normal;
+
+        position: relative;
+        z-index: 2;
+    }
+
+    .landing-wrapper .hero-banner h3 {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        padding-right: 0 !important;
+        max-width: 100% !important;
+        width: 100%;
+
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .landing-wrapper .hero-banner p {
+        padding-right: 0 !important;
+        max-width: 100% !important;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+
+    @media (max-width: 390px) {
+        .landing-wrapper .hero-banner h1 {
+            padding-right: 0;
+            margin-top: calc(var(--mascot-width) * 0.3) !important;
+        }
+        .landing-wrapper .hero-banner h3 {
+            padding-right: 0;
+        }
+    }
+
 
     .landing-wrapper .authors-section {
         flex-direction: column;
