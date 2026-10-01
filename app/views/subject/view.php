@@ -34,7 +34,8 @@
             <div>
                 <p class="text-gray" style="font-size: 0.85rem; font-weight: 600; margin-bottom: 5px;">Notatki do przedmiotu</p>
                 <p class="text-dark" style="font-size: 0.95rem; margin: 0; max-width: 400px;">
-                    <?php echo htmlspecialchars($subject['GeneralNotes'] ?? 'Brak notatek'); ?>
+                    <?php echo htmlentities(htmlspecialchars_decode($subject['GeneralNotes'] ?? 'Brak notatek')); ?>
+
                 </p>
             </div>
         </div>
