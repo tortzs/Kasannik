@@ -103,7 +103,7 @@
                 </td>
                 <td class="fw-bold"><?php echo htmlspecialchars($subject['SubjectPoints'] ?? '0') . ' / ' . htmlspecialchars($subject['SubjectMaxPossiblePoints'] ?? '0'); ?></td>
                 <td class="text-gray" style="font-size: 0.85rem; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    <?php echo htmlentities(htmlspecialchars_decode($subject['SubjectDescription'] ?? '')); ?>
+                    <?php echo htmlspecialchars_decode($subject['SubjectDescription'] ?? ''); ?>
                 </td>
                 <td>
                     <div class="action-buttons">
